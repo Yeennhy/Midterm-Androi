@@ -17,5 +17,6 @@ data class CheckoutUiState(
     val paymentMethods: List<PaymentMethod> = emptyList(),
     val shippingAddress: Address? = null,
     val isOrderConfirmed: Boolean = false,
+    val isOrderSuccess: Boolean = false,
     val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE
 )

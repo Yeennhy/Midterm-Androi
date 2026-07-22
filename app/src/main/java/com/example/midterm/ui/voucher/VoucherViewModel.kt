@@ -2,6 +2,7 @@ package com.example.midterm.ui.voucher
 
 import androidx.lifecycle.viewModelScope
 import com.example.midterm.data.model.AccessibilityMode
+import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.repository.SeminarRepository
 import com.example.midterm.data.repository.VoucherRepository
 import com.example.midterm.ui.base.BaseViewModel
@@ -43,5 +44,13 @@ class VoucherViewModel(
 
     fun removeVoucher() {
         updateState { it.copy(appliedVoucher = null) }
+    }
+
+    fun onTabSelected(index: Int) {
+        // TODO: Filter availableVouchers based on selected tab
+    }
+
+    fun onVoucherSelected(voucher: Voucher) {
+        // TODO: Handle voucher selection and update totalSavings
     }
 }

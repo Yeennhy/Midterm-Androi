@@ -61,4 +61,12 @@ class CartViewModel(
     fun toggleSelection(productId: String) {
         cartRepository.toggleSelection(productId)
     }
+
+    fun onVariantClicked(product: Product) {
+        // TODO: Show VariantSelectorSheet bottom sheet
+    }
+
+    fun onQuantityChanged(productId: String, delta: Int) {
+        // TODO: Apply delta to current quantity and update via repository
+    }
 }

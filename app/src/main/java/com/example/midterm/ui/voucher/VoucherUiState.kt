@@ -15,5 +15,8 @@ data class VoucherUiState(
     val vouchers: List<Voucher> = emptyList(),
     val appliedVoucher: Voucher? = null,
     val orderTotal: Long = 0L,
-    val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE
+    val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE,
+    val selectedTab: Int = 0,
+    val availableVouchers: List<Voucher> = emptyList(),
+    val totalSavings: Long = 0L
 )

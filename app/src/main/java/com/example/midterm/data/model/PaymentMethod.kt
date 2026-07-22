@@ -3,8 +3,8 @@ package com.example.midterm.data.model
 /**
  * Immutable entity representing a payment method option.
  *
- * Used in the checkout flow. The CheckoutViewModel exposes available
- * methods via StateFlow; the user selection updates the UI state.
+ * @property iconResId Drawable resource for the payment icon (e.g., card logo).
+ * @property description Human-readable detail (e.g., "Ending in **4242" for cards).
  */
 data class PaymentMethod(
     val id: String,
