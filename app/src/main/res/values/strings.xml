@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Midterm</string>
+    <string name="accessibility_status">Mode: %s</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_voucher">Vouchers</string>
+    <string name="nav_checkout">Checkout</string>
+    <string name="toggle_accessibility">Toggle Accessibility</string>
 </resources>

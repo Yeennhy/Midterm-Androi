@@ -5,15 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/tvAccessibilityStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mode: ACCESSIBLE"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnToggleAccessibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle Accessibility"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAccessibilityStatus"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnCart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnToggleAccessibility"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="32dp"/>
+
+    <Button
+        android:id="@+id/btnVoucher"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Vouchers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCart"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="32dp"/>
+
+    <Button
+        android:id="@+id/btnCheckout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Checkout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnVoucher"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="32dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

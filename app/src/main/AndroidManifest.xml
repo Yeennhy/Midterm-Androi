@@ -13,14 +13,27 @@
         android:theme="@style/Theme.Midterm"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".ui.main.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="false"
+            android:label="@string/nav_cart" />
+        <activity
+            android:name=".ui.voucher.VoucherActivity"
+            android:exported="false"
+            android:label="@string/nav_voucher" />
+        <activity
+            android:name=".ui.checkout.CheckoutActivity"
+            android:exported="false"
+            android:label="@string/nav_checkout" />
     </application>
 
 </manifest>
