@@ -1,5 +1,6 @@
 package com.example.midterm.ui.cart
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -29,8 +30,16 @@ class VariantAdapter(
         fun bind(variant: ProductVariant) {
             binding.txtVariant.text = variant.name
             
+            val isSelected = variant.id == selectedVariantId
             // Set the selected state for the background selector
-            binding.root.isSelected = variant.id == selectedVariantId
+            binding.root.isSelected = isSelected
+            
+            // Change text color when selected
+            if (isSelected) {
+                binding.txtVariant.setTextColor(Color.parseColor("#9F4123"))
+            } else {
+                binding.txtVariant.setTextColor(Color.BLACK)
+            }
 
             binding.root.setOnClickListener {
                 onVariantClick(variant)

@@ -28,8 +28,11 @@ class CartRepository {
     private val _cartItems = MutableStateFlow<List<CartItem>>(
         listOf(
             CartItem(LocalMockData.products[0], quantity = 2, selectedVariant = LocalMockData.products[0].variants[0]),
+            CartItem(LocalMockData.products[1], quantity = 3, selectedVariant = LocalMockData.products[1].variants[0]),
             CartItem(LocalMockData.products[2], quantity = 1, selectedVariant = LocalMockData.products[2].variants[0]),
-            CartItem(LocalMockData.products[3], quantity = 1, selectedVariant = LocalMockData.products[3].variants[1])
+            CartItem(LocalMockData.products[3], quantity = 1, selectedVariant = LocalMockData.products[3].variants[1]),
+            CartItem(LocalMockData.products[4], quantity = 1, selectedVariant = LocalMockData.products[4].variants[0]),
+            CartItem(LocalMockData.products[5], quantity = 4, selectedVariant = LocalMockData.products[5].variants[2])
         )
     )
     val cartItems: StateFlow<List<CartItem>> = _cartItems.asStateFlow()

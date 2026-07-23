@@ -49,6 +49,12 @@ class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener
         binding.voucherSelect.setOnClickListener {
             Toast.makeText(this, "Error: Action not supported in this view.", Toast.LENGTH_SHORT).show()
         }
+
+        binding.btnSelectAll.setOnClickListener {
+            val currentState = viewModel.uiState.value
+            val nextSelectAll = !currentState.isSelectAll
+            viewModel.selectAll(nextSelectAll)
+        }
     }
 
     private fun observeState() {
