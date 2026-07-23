@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.midterm.R
+import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.model.VoucherType
 import com.example.midterm.databinding.ItemVoucherBinding
@@ -31,10 +32,17 @@ class VoucherAdapter(
 ) : ListAdapter<Voucher, VoucherAdapter.ViewHolder>(DiffCallback()) {
 
     private var selectedCode: String? = null
+    private var accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE
 
     fun setSelectedCode(code: String?) {
         if (selectedCode == code) return
         selectedCode = code
+        notifyDataSetChanged()
+    }
+
+    fun setAccessibilityMode(mode: AccessibilityMode) {
+        if (accessibilityMode == mode) return
+        accessibilityMode = mode
         notifyDataSetChanged()
     }
 
@@ -46,15 +54,14 @@ class VoucherAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), getItem(position).code == selectedCode)
-        // TODO: Use AccessibilityHelper to apply/remove labels here
+        holder.bind(getItem(position), getItem(position).code == selectedCode, accessibilityMode)
     }
 
     inner class ViewHolder(
         private val binding: ItemVoucherBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(voucher: Voucher, isSelected: Boolean) {
+        fun bind(voucher: Voucher, isSelected: Boolean, accessibilityMode: AccessibilityMode) {
             val context = binding.root.context
             val isFlatBonus = voucher.type == VoucherType.PRODUCT && !voucher.badgeText.contains("%")
             val style = when {
@@ -78,6 +85,17 @@ class VoucherAdapter(
             binding.tvCode.text = voucher.code
             binding.radioDot.visibility = if (isSelected) View.VISIBLE else View.INVISIBLE
             binding.root.setOnClickListener { onItemClick(voucher) }
+
+            if (accessibilityMode == AccessibilityMode.ACCESSIBLE) {
+                binding.root.restoreToAccessibilityTree()
+                val stateLabel = if (isSelected) "Selected" else "Not selected"
+                binding.root.groupForAccessibility(
+                    label = "${voucher.badgeText}. ${voucher.title}. ${voucher.description}. " +
+                        "${voucher.expiryLabel}. Code ${voucher.code}. $stateLabel."
+                )
+            } else {
+                binding.root.pruneFromAccessibilityTree()
+            }
         }
     }
 
