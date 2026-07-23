@@ -7,8 +7,8 @@ package com.example.midterm.data.model
  * and required vouchers that must be applied for the task to be completed.
  *
  * MVVM Note: The SeminarRepository holds the current active task.
- * The MainViewModel observes it, and the seminar state drives
- * which UI features are enabled/visible.
+ * Feature ViewModels (Cart, Voucher, Checkout, ...) observe it, and the
+ * seminar state drives which UI features are enabled/visible.
  */
 data class SeminarTask(
     val id: String,

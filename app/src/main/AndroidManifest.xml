@@ -23,6 +23,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.accessible.AccessibleActivity"
+            android:exported="false"
+            android:label="@string/btn_accessible_ui" />
+        <activity
+            android:name=".ui.unfriendly.UnfriendlyActivity"
+            android:exported="false"
+            android:label="@string/btn_unfriendly_ui" />
+        <activity
             android:name=".ui.cart.CartActivity"
             android:exported="false"
             android:label="@string/nav_cart" />

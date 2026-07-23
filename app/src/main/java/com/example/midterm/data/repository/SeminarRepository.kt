@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
  *
  * UDF Role: This is the single source of truth for whether the app is
  * in ACCESSIBLE or INACCESSIBLE mode, which task is active, and the
- * completion state. The MainViewModel observes this and propagates
- * mode changes down to feature ViewModels via shared StateFlows.
+ * completion state. Feature ViewModels (Cart, Voucher, Checkout, ...)
+ * observe this directly to react to mode changes via shared StateFlows.
  *
  * The toggleAccessibilityMode() method is the central "Break / Fix" trigger
  * that AccessibilityHelper uses to dynamically adjust all UI attributes.
@@ -33,6 +33,10 @@ class SeminarRepository {
             accessibilityMode = if (current == AccessibilityMode.ACCESSIBLE)
                 AccessibilityMode.INACCESSIBLE else AccessibilityMode.ACCESSIBLE
         )
+    }
+
+    fun setAccessibilityMode(mode: AccessibilityMode) {
+        _session.value = _session.value.copy(accessibilityMode = mode)
     }
 
     fun markCompleted() {

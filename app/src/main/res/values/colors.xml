@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="landing_background">#FBF3E7</color>
+    <color name="landing_title">#1A1A1A</color>
+    <color name="landing_subtitle">#2F5233</color>
+    <color name="landing_description">#6B6B6B</color>
+    <color name="landing_button">#8B3A1D</color>
+    <color name="landing_button_text">#FFFFFFFF</color>
 </resources>

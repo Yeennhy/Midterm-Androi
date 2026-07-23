@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Midterm</string>
-    <string name="accessibility_status">Mode: %s</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_voucher">Vouchers</string>
     <string name="nav_checkout">Checkout</string>
-    <string name="toggle_accessibility">Toggle Accessibility</string>
+
+    <string name="landing_title">Accessible Android App Demo</string>
+    <string name="landing_subtitle">E-Commerce Checkout Flow</string>
+    <string name="landing_description">Select a UI mode to begin</string>
+    <string name="btn_accessible_ui">Accessible UI</string>
+    <string name="btn_unfriendly_ui">Unfriendly UI</string>
+
+    <string name="accessible_screen_placeholder">Accessible UI screen — TODO</string>
+    <string name="unfriendly_screen_placeholder">Unfriendly UI screen — TODO</string>
 </resources>

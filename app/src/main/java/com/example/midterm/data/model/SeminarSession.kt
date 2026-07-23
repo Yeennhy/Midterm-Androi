@@ -7,8 +7,9 @@ package com.example.midterm.data.model
  * It drives whether the app operates in ACCESSIBLE or INACCESSIBLE mode,
  * which task is active, and whether the user has completed the flow.
  *
- * UDF Flow: SeminarRepository -> MainViewModel -> MainActivity observes
- * and toggles AccessibilityHelper functions based on the [accessibilityMode].
+ * UDF Flow: MainActivity sets the mode on entry; each feature Activity
+ * (Cart, Voucher, Checkout, ...) observes SeminarRepository directly and
+ * toggles AccessibilityHelper functions based on the [accessibilityMode].
  */
 data class SeminarSession(
     val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE,
