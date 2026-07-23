@@ -9,7 +9,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.databinding.BottomSheetVariantBinding
-import com.example.midterm.ui.common.applyAccessibilitySupport
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class VariantSelectorSheet : BottomSheetDialogFragment() {
@@ -34,8 +33,6 @@ class VariantSelectorSheet : BottomSheetDialogFragment() {
         
         val product = ServiceLocator.productRepository.getProductById(productId) ?: return
         
-        binding.root.applyAccessibilitySupport("Select variant for ${product.name}")
-
         binding.rvVariants.layoutManager = LinearLayoutManager(requireContext())
         binding.rvVariants.adapter = VariantAdapter(
             variants = product.variants,

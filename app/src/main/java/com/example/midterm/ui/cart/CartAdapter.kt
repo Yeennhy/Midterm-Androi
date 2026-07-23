@@ -1,5 +1,6 @@
 package com.example.midterm.ui.cart
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -56,9 +57,13 @@ class CartAdapter(
                 item.product.imageResId
             )
 
-            // Hiển thị item đã được swipe chọn
-            binding.root.alpha =
-                if (item.isSelected) 0.6f else 1f
+            // Update stroke color instead of alpha
+            val strokeColor = if (item.isSelected) {
+                Color.parseColor("#9F4123")
+            } else {
+                Color.LTGRAY
+            }
+            binding.root.strokeColor = strokeColor
 
             binding.btnPlus.setOnClickListener {
                 listener.onIncreaseQuantity(item)

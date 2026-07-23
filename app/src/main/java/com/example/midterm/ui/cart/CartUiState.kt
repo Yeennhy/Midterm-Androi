@@ -1,6 +1,5 @@
 package com.example.midterm.ui.cart
 
-import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.data.model.CartItem
 
 /**
