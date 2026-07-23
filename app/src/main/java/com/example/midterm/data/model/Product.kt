@@ -9,11 +9,15 @@ package com.example.midterm.data.model
  *
  * @property price Stored as Long to cleanly represent Vietnamese Dong (VND)
  *                 without decimal precision issues (e.g. 100000 = 100.000đ).
+ * @property variants Selectable options for this product (e.g. Red/Blue/Black pen)
+ *                     shown in the variant picker menu. Empty if the product has
+ *                     no variants.
  */
 data class Product(
     val id: String,
     val name: String,
     val price: Long,
     val category: String,
-    val imageResId: Int
+    val imageResId: Int,
+    val variants: List<ProductVariant> = emptyList()
 )

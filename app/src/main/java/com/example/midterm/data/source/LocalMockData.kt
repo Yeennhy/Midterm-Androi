@@ -3,6 +3,7 @@ package com.example.midterm.data.source
 import com.example.midterm.data.model.Address
 import com.example.midterm.data.model.PaymentMethod
 import com.example.midterm.data.model.Product
+import com.example.midterm.data.model.ProductVariant
 import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.model.VoucherType
 
@@ -19,9 +20,18 @@ object LocalMockData {
     // Standard delivery fee charged when no DELIVERY voucher is applied.
     const val DEFAULT_SHIPPING_FEE: Long = 30_000L
 
+    // ── Product Variants ─────────────────────────────────────
+    // Options shown in the variant picker menu (e.g. VariantSelectorSheet)
+    // when a product is tapped. colorHex drives an optional swatch dot.
+    private val penVariants: List<ProductVariant> = listOf(
+        ProductVariant("p1-red", "Red", colorHex = 0xFFF44336.toInt()),
+        ProductVariant("p1-blue", "Blue", colorHex = 0xFF2196F3.toInt()),
+        ProductVariant("p1-black", "Black", colorHex = 0xFF000000.toInt())
+    )
+
     // ── Products ─────────────────────────────────────────────
     val products: List<Product> = listOf(
-        Product("p1", "Ballpoint Pen", 5_000, "Stationery", android.R.drawable.ic_menu_edit),
+        Product("p1", "Ballpoint Pen", 5_000, "Stationery", android.R.drawable.ic_menu_edit, penVariants),
         Product("p2", "2B Pencil", 3_000, "Stationery", android.R.drawable.ic_menu_edit),
         Product("p3", "200-Page Notebook", 15_000, "Paper Goods", android.R.drawable.ic_menu_edit),
         Product("p4", "Men's T-Shirt", 120_000, "Fashion", android.R.drawable.ic_menu_edit),

@@ -2,6 +2,7 @@ package com.example.midterm.data.repository
 
 import com.example.midterm.data.model.CartItem
 import com.example.midterm.data.model.Product
+import com.example.midterm.data.model.ProductVariant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +16,9 @@ import kotlinx.coroutines.flow.asStateFlow
  * This enforces a unidirectional data flow:
  *   UI Event -> ViewModel -> Repository mutation -> StateFlow emission -> UI update
  *
+ * A cart line is identified by (productId, variantId) — the same product with
+ * two different variants (e.g. a Red pen and a Blue pen) are separate rows.
+ *
  * Manual DI: CartRepository is a singleton-like instance injected via
  * ViewModelProvider.Factory constructor.
  */
@@ -23,35 +27,35 @@ class CartRepository {
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems.asStateFlow()
 
-    fun addProduct(product: Product, quantity: Int = 1) {
+    fun addProduct(product: Product, quantity: Int = 1, variant: ProductVariant? = null) {
         val current = _cartItems.value.toMutableList()
-        val existingIndex = current.indexOfFirst { it.product.id == product.id }
+        val existingIndex = current.indexOfFirst { it.matches(product.id, variant?.id) }
         if (existingIndex >= 0) {
             val existing = current[existingIndex]
             current[existingIndex] = existing.copy(quantity = existing.quantity + quantity)
         } else {
-            current.add(CartItem(product = product, quantity = quantity))
+            current.add(CartItem(product = product, quantity = quantity, selectedVariant = variant))
         }
         _cartItems.value = current
     }
 
-    fun removeProduct(productId: String) {
-        _cartItems.value = _cartItems.value.filter { it.product.id != productId }
+    fun removeProduct(productId: String, variantId: String? = null) {
+        _cartItems.value = _cartItems.value.filterNot { it.matches(productId, variantId) }
     }
 
-    fun updateQuantity(productId: String, quantity: Int) {
+    fun updateQuantity(productId: String, quantity: Int, variantId: String? = null) {
         if (quantity <= 0) {
-            removeProduct(productId)
+            removeProduct(productId, variantId)
             return
         }
         _cartItems.value = _cartItems.value.map { item ->
-            if (item.product.id == productId) item.copy(quantity = quantity) else item
+            if (item.matches(productId, variantId)) item.copy(quantity = quantity) else item
         }
     }
 
-    fun toggleSelection(productId: String) {
+    fun toggleSelection(productId: String, variantId: String? = null) {
         _cartItems.value = _cartItems.value.map { item ->
-            if (item.product.id == productId) item.copy(isSelected = !item.isSelected) else item
+            if (item.matches(productId, variantId)) item.copy(isSelected = !item.isSelected) else item
         }
     }
 
@@ -60,4 +64,7 @@ class CartRepository {
     }
 
     fun getSelectedItems(): List<CartItem> = _cartItems.value.filter { it.isSelected }
+
+    private fun CartItem.matches(productId: String, variantId: String?): Boolean =
+        product.id == productId && selectedVariant?.id == variantId
 }

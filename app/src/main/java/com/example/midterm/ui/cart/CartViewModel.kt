@@ -3,6 +3,7 @@ package com.example.midterm.ui.cart
 import androidx.lifecycle.viewModelScope
 import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.data.model.Product
+import com.example.midterm.data.model.ProductVariant
 import com.example.midterm.data.repository.CartRepository
 import com.example.midterm.data.repository.SeminarRepository
 import com.example.midterm.ui.base.BaseViewModel
@@ -46,27 +47,32 @@ class CartViewModel(
         }
     }
 
-    fun addProduct(product: Product, quantity: Int = 1) {
-        cartRepository.addProduct(product, quantity)
+    fun addProduct(product: Product, quantity: Int = 1, variant: ProductVariant? = null) {
+        cartRepository.addProduct(product, quantity, variant)
     }
 
-    fun removeProduct(productId: String) {
-        cartRepository.removeProduct(productId)
+    fun removeProduct(productId: String, variantId: String? = null) {
+        cartRepository.removeProduct(productId, variantId)
     }
 
-    fun updateQuantity(productId: String, quantity: Int) {
-        cartRepository.updateQuantity(productId, quantity)
+    fun updateQuantity(productId: String, quantity: Int, variantId: String? = null) {
+        cartRepository.updateQuantity(productId, quantity, variantId)
     }
 
-    fun toggleSelection(productId: String) {
-        cartRepository.toggleSelection(productId)
+    fun toggleSelection(productId: String, variantId: String? = null) {
+        cartRepository.toggleSelection(productId, variantId)
     }
 
     fun onVariantClicked(product: Product) {
-        // TODO: Show VariantSelectorSheet bottom sheet
+        // TODO: Show VariantSelectorSheet bottom sheet, backed by product.variants
     }
 
-    fun onQuantityChanged(productId: String, delta: Int) {
+    /** Called when the user confirms a variant choice in VariantSelectorSheet. */
+    fun onVariantSelected(product: Product, variant: ProductVariant, quantity: Int = 1) {
+        addProduct(product, quantity, variant)
+    }
+
+    fun onQuantityChanged(productId: String, delta: Int, variantId: String? = null) {
         // TODO: Apply delta to current quantity and update via repository
     }
 }
