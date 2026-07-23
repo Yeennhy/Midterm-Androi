@@ -23,20 +23,95 @@ object LocalMockData {
     // ── Product Variants ─────────────────────────────────────
     // Options shown in the variant picker menu (e.g. VariantSelectorSheet)
     // when a product is tapped. colorHex drives an optional swatch dot.
-    private val penVariants: List<ProductVariant> = listOf(
+    // ── Product Variants ─────────────────────────────────────
+
+    private val penVariants = listOf(
         ProductVariant("p1-red", "Red", colorHex = 0xFFF44336.toInt()),
         ProductVariant("p1-blue", "Blue", colorHex = 0xFF2196F3.toInt()),
         ProductVariant("p1-black", "Black", colorHex = 0xFF000000.toInt())
     )
 
+    private val pencilVariants = listOf(
+        ProductVariant("p2-hb", "HB"),
+        ProductVariant("p2-2b", "2B"),
+        ProductVariant("p2-4b", "4B")
+    )
+
+    private val notebookVariants = listOf(
+        ProductVariant("p3-a5", "A5 • Dotted"),
+        ProductVariant("p3-a5-lined", "A5 • Lined"),
+        ProductVariant("p3-b5", "B5 • Plain")
+    )
+
+    private val tshirtVariants = listOf(
+        ProductVariant("p4-s", "S", colorHex = 0xFF000000.toInt()),
+        ProductVariant("p4-m", "M", colorHex = 0xFF000000.toInt()),
+        ProductVariant("p4-l", "L", colorHex = 0xFF000000.toInt()),
+        ProductVariant("p4-xl", "XL", colorHex = 0xFF000000.toInt())
+    )
+
+    private val capVariants = listOf(
+        ProductVariant("p5-black", "Black", colorHex = 0xFF000000.toInt()),
+        ProductVariant("p5-white", "White", colorHex = 0xFFFFFFFF.toInt()),
+        ProductVariant("p5-beige", "Beige", colorHex = 0xFFD7CCC8.toInt())
+    )
+
+    private val keychainVariants = listOf(
+        ProductVariant("p6-cat", "Cat"),
+        ProductVariant("p6-bear", "Bear"),
+        ProductVariant("p6-star", "Star")
+    )
+
     // ── Products ─────────────────────────────────────────────
     val products: List<Product> = listOf(
-        Product("p1", "Ballpoint Pen", 5_000, "Stationery", android.R.drawable.ic_menu_edit, penVariants),
-        Product("p2", "2B Pencil", 3_000, "Stationery", android.R.drawable.ic_menu_edit),
-        Product("p3", "200-Page Notebook", 15_000, "Paper Goods", android.R.drawable.ic_menu_edit),
-        Product("p4", "Men's T-Shirt", 120_000, "Fashion", android.R.drawable.ic_menu_edit),
-        Product("p5", "Cap", 50_000, "Accessories", android.R.drawable.ic_menu_edit),
-        Product("p6", "Keychain", 20_000, "Accessories", android.R.drawable.ic_menu_edit)
+        Product(
+            "p1",
+            "Ballpoint Pen",
+            5_000,
+            "Stationery",
+            com.example.midterm.R.drawable.pen,
+            penVariants
+        ),
+        Product(
+            "p2",
+            "2B Pencil",
+            3_000,
+            "Stationery",
+            com.example.midterm.R.drawable.twob,
+            pencilVariants
+        ),
+        Product(
+            "p3",
+            "200-Page Notebook",
+            15_000,
+            "Paper Goods",
+            com.example.midterm.R.drawable.notebook,
+            notebookVariants
+        ),
+        Product(
+            "p4",
+            "Men's T-Shirt",
+            120_000,
+            "Fashion",
+            com.example.midterm.R.drawable.tshirt,
+            tshirtVariants
+        ),
+        Product(
+            "p5",
+            "Cap",
+            50_000,
+            "Accessories",
+            com.example.midterm.R.drawable.cap,
+            capVariants
+        ),
+        Product(
+            "p6",
+            "Keychain",
+            20_000,
+            "Accessories",
+            com.example.midterm.R.drawable.keychain,
+            keychainVariants
+        )
     )
 
     // ── Vouchers ──────────────────────────────────────────────
