@@ -9,6 +9,7 @@
     android:orientation="horizontal">
 
     <FrameLayout
+        android:id="@+id/badgeBox"
         android:layout_width="96dp"
         android:layout_height="match_parent"
         android:background="@color/landing_button">
