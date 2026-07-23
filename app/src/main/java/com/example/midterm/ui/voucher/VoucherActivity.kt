@@ -21,10 +21,11 @@ class VoucherActivity : BaseActivity<ActivityVoucherBinding>(ActivityVoucherBind
         super.onCreate(savedInstanceState)
 
         val voucherRepository = ServiceLocator.voucherRepository
+        val cartRepository = ServiceLocator.cartRepository
         val seminarRepository = ServiceLocator.seminarRepository
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory { VoucherViewModel(voucherRepository, seminarRepository) }
+            ViewModelFactory { VoucherViewModel(voucherRepository, cartRepository, seminarRepository) }
         )[VoucherViewModel::class.java]
 
         observeState()

@@ -26,10 +26,14 @@ class CheckoutViewModel(
                 val selectedItems = items.filter { it.isSelected }
                 val subtotal = selectedItems.sumOf { it.product.price * it.quantity }
                 val applied = _uiState.value.appliedVoucher
-                val discount = if (applied?.type == VoucherType.PERCENT) {
+                val discount = if (applied?.type == VoucherType.PRODUCT) {
                     subtotal * applied.value / 100
                 } else 0L
-                val shippingFee = if (applied?.type == VoucherType.SHIPPING) 0L else 30_000L
+                val shippingFee = if (applied?.type == VoucherType.DELIVERY) {
+                    0L
+                } else {
+                    LocalMockData.DEFAULT_SHIPPING_FEE
+                }
 
                 CheckoutUiState(
                     orderItems = selectedItems,

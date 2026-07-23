@@ -1,6 +1,7 @@
 package com.example.midterm.data.repository
 
 import com.example.midterm.data.model.Voucher
+import com.example.midterm.data.model.VoucherType
 import com.example.midterm.data.source.LocalMockData
 
 /**
@@ -14,13 +15,25 @@ class VoucherRepository {
 
     private val vouchers: List<Voucher> = LocalMockData.vouchers
 
-    fun getVouchers(): List<Voucher> = vouchers
+    /** Product vouchers to render in the "Product discount" tab (hidden ones excluded). */
+    fun getProductVouchers(): List<Voucher> =
+        vouchers.filter { it.type == VoucherType.PRODUCT && !it.isHidden }
 
-    fun getVoucherByCode(code: String): Voucher? = vouchers.find { it.code == code }
+    /** Delivery vouchers to render in the "Delivery discount" tab (hidden ones excluded). */
+    fun getDeliveryVouchers(): List<Voucher> =
+        vouchers.filter { it.type == VoucherType.DELIVERY && !it.isHidden }
+
+    /**
+     * Looks up a voucher by exact code, searching the *entire* catalog, including
+     * hidden ones. This is the only way a hidden voucher can ever be found — it is
+     * intentionally left out of [getProductVouchers] / [getDeliveryVouchers].
+     */
+    fun getVoucherByCode(code: String): Voucher? =
+        vouchers.find { it.code.equals(code.trim(), ignoreCase = true) }
 
     /**
      * Validates whether a voucher can be applied to the given [orderTotal].
-     * Returns null if invalid, or the Voucher if it passes minSpend check.
+     * Returns null if the code doesn't exist or the order doesn't meet minSpend.
      */
     fun validateVoucher(code: String, orderTotal: Long): Voucher? {
         val voucher = getVoucherByCode(code) ?: return null
