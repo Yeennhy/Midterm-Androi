@@ -44,11 +44,147 @@ object LocalMockData {
     // Hidden vouchers (isHidden = true) are omitted from those lists and only
     // apply once the user types the matching code into the "enter code" field.
     val vouchers: List<Voucher> = listOf(
-        Voucher("SAVE10", VoucherType.PRODUCT, 10, 50_000, 0xFF4CAF50.toInt()),
-        Voucher("SAVE20", VoucherType.PRODUCT, 20, 100_000, 0xFF2196F3.toInt()),
-        Voucher("SALE50", VoucherType.PRODUCT, 50, 200_000, 0xFFF44336.toInt()),
-        Voucher("FREESHIP", VoucherType.DELIVERY, 100, 30_000, 0xFFFF9800.toInt()),
-        Voucher("VIP2026", VoucherType.PRODUCT, 30, 0, 0xFF9C27B0.toInt(), isHidden = true)
+        Voucher(
+            code = "DELIVERY_20",
+            type = VoucherType.DELIVERY,
+            value = 20,
+            minSpend = 100_000,
+            title = "Standard Delivery",
+            description = "Min. spend 100k • Cap 10k",
+            badgeText = "20% OFF",
+            expiryLabel = "EXPIRES 30 SEP"
+        ),
+        Voucher(
+            code = "FREESHIP_NOW",
+            type = VoucherType.DELIVERY,
+            value = 100,
+            minSpend = 0,
+            title = "Standard Delivery",
+            description = "No minimum spend",
+            badgeText = "FREE",
+            expiryLabel = "EXPIRES IN 2 DAYS"
+        ),
+        Voucher(
+            code = "FREESHIP50",
+            type = VoucherType.DELIVERY,
+            value = 100,
+            minSpend = 50_000,
+            title = "Standard Delivery",
+            description = "Min. spend 50k",
+            badgeText = "FREE",
+            expiryLabel = "EXPIRES 10 AUG"
+        ),
+        Voucher(
+            code = "EXPRESS10",
+            type = VoucherType.DELIVERY,
+            value = 10,
+            minSpend = 0,
+            title = "Express Delivery",
+            description = "Cap 15k",
+            badgeText = "10% OFF",
+            expiryLabel = "EXPIRES IN 5 DAYS"
+        ),
+        Voucher(
+            code = "SHIP30OFF",
+            type = VoucherType.DELIVERY,
+            value = 30,
+            minSpend = 80_000,
+            title = "Standard Delivery",
+            description = "Min. spend 80k",
+            badgeText = "30% OFF",
+            expiryLabel = "EXPIRES 15 SEP"
+        ),
+        Voucher(
+            code = "WEEKENDSHIP",
+            type = VoucherType.DELIVERY,
+            value = 100,
+            minSpend = 0,
+            title = "Weekend Delivery",
+            description = "Sat - Sun only",
+            badgeText = "FREE",
+            expiryLabel = "WEEKENDS ONLY"
+        ),
+        Voucher(
+            code = "NEWAREA_FREE",
+            type = VoucherType.DELIVERY,
+            value = 100,
+            minSpend = 0,
+            title = "New Area Promo",
+            description = "First order in new areas",
+            badgeText = "FREE",
+            expiryLabel = "LIMITED TIME"
+        ),
+        Voucher(
+            code = "WELCOME",
+            type = VoucherType.PRODUCT,
+            value = 15,
+            minSpend = 0,
+            title = "New Member Bonus",
+            description = "New customers only",
+            badgeText = "15K OFF",
+            expiryLabel = "ONE-TIME USE"
+        ),
+        Voucher(
+            code = "SALE10",
+            type = VoucherType.PRODUCT,
+            value = 10,
+            minSpend = 50_000,
+            title = "Weekend Sale",
+            description = "Min. spend 50k",
+            badgeText = "10% OFF",
+            expiryLabel = "EXPIRES 5 AUG"
+        ),
+        Voucher(
+            code = "SALE30",
+            type = VoucherType.PRODUCT,
+            value = 30,
+            minSpend = 150_000,
+            title = "Flash Sale",
+            description = "Min. spend 150k • Cap 50k",
+            badgeText = "30% OFF",
+            expiryLabel = "EXPIRES IN 3 DAYS"
+        ),
+        Voucher(
+            code = "STUDENT15",
+            type = VoucherType.PRODUCT,
+            value = 15,
+            minSpend = 0,
+            title = "Student Discount",
+            description = "Valid with student ID",
+            badgeText = "15% OFF",
+            expiryLabel = "NO EXPIRY"
+        ),
+        Voucher(
+            code = "LOYALTY25",
+            type = VoucherType.PRODUCT,
+            value = 25,
+            minSpend = 100_000,
+            title = "Loyalty Reward",
+            description = "For returning customers",
+            badgeText = "25% OFF",
+            expiryLabel = "EXPIRES 31 DEC"
+        ),
+        Voucher(
+            code = "MEGA40",
+            type = VoucherType.PRODUCT,
+            value = 40,
+            minSpend = 300_000,
+            title = "Mega Sale",
+            description = "Min. spend 300k • Cap 80k",
+            badgeText = "40% OFF",
+            expiryLabel = "EXPIRES 20 OCT"
+        ),
+        Voucher(
+            code = "HIHI",
+            type = VoucherType.PRODUCT,
+            value = 30,
+            minSpend = 0,
+            title = "VIP Member",
+            description = "Exclusive early access",
+            badgeText = "30% OFF",
+            expiryLabel = "LIMITED TIME",
+            isHidden = true
+        )
     )
 
     // ── Payment Methods ──────────────────────────────────────

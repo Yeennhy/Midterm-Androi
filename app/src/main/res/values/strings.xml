@@ -12,4 +12,13 @@
 
     <string name="accessible_screen_placeholder">Accessible UI screen — TODO</string>
     <string name="unfriendly_screen_placeholder">Unfriendly UI screen — TODO</string>
+
+    <string name="discount_title">Discount</string>
+    <string name="discount_enter_code">Enter code</string>
+    <string name="discount_code_hint">e.g. SUMMER24</string>
+    <string name="discount_apply">Apply</string>
+    <string name="discount_code_invalid">Invalid or ineligible code</string>
+    <string name="discount_tab_product">Product Discount</string>
+    <string name="discount_tab_delivery">Delivery Discount</string>
+    <string name="discount_total_savings">TOTAL SAVINGS:</string>
 </resources>

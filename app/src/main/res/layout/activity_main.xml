@@ -8,80 +8,94 @@
     android:background="@color/landing_background"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
-
     <TextView
         android:id="@+id/tvLandingTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="48dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
         android:gravity="center"
+        android:includeFontPadding="false"
+        android:lineHeight="42sp"
         android:text="@string/landing_title"
         android:textColor="@color/landing_title"
-        android:textSize="26sp"
-        android:textStyle="bold"
+        android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guidelineCenter" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvLandingSubtitle"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/tvLandingSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
         android:text="@string/landing_subtitle"
         android:textColor="@color/landing_subtitle"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLandingTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvLandingTitle"
+        app:layout_constraintBottom_toTopOf="@id/tvLandingDescription" />
 
     <TextView
         android:id="@+id/tvLandingDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/hanken_grotesk_light"
         android:text="@string/landing_description"
         android:textColor="@color/landing_description"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLandingSubtitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvLandingSubtitle"
+        app:layout_constraintBottom_toTopOf="@id/btnAccessibleUi" />
 
     <Button
         android:id="@+id/btnAccessibleUi"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="56dp"
-        android:layout_marginHorizontal="40dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/landing_button"
+        android:elevation="4dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:outlineAmbientShadowColor="@color/landing_button"
+        android:outlineSpotShadowColor="@color/landing_button"
+        android:stateListAnimator="@null"
         android:text="@string/btn_accessible_ui"
+        android:textAllCaps="false"
         android:textColor="@color/landing_button_text"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:cornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLandingDescription" />
+        app:layout_constraintTop_toBottomOf="@id/tvLandingDescription"
+        app:layout_constraintBottom_toTopOf="@id/btnUnfriendlyUi" />
 
     <Button
         android:id="@+id/btnUnfriendlyUi"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="56dp"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="48dp"
         android:backgroundTint="@color/landing_button"
+        android:elevation="4dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:outlineAmbientShadowColor="@color/landing_button"
+        android:outlineSpotShadowColor="@color/landing_button"
+        android:stateListAnimator="@null"
         android:text="@string/btn_unfriendly_ui"
+        android:textAllCaps="false"
         android:textColor="@color/landing_button_text"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:cornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAccessibleUi" />
+        app:layout_constraintTop_toBottomOf="@id/btnAccessibleUi"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

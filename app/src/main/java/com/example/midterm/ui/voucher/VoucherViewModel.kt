@@ -42,7 +42,7 @@ class VoucherViewModel(
                         productVouchers = voucherRepository.getProductVouchers(),
                         deliveryVouchers = voucherRepository.getDeliveryVouchers(),
                         orderTotal = orderTotal,
-                        totalSavings = computeSavings(it.appliedVoucher, orderTotal),
+                        totalSavings = computeSavings(it.appliedProductVoucher, it.appliedDeliveryVoucher, orderTotal),
                         accessibilityMode = mode
                     )
                 }
@@ -59,8 +59,17 @@ class VoucherViewModel(
         applyVoucher(voucher)
     }
 
-    fun removeVoucher() {
-        updateState { it.copy(appliedVoucher = null, totalSavings = 0L) }
+    /** Clears whichever voucher slot matches [type], leaving the other type's selection intact. */
+    fun removeVoucher(type: VoucherType) {
+        updateState {
+            val next = when (type) {
+                VoucherType.PRODUCT -> it.copy(appliedProductVoucher = null)
+                VoucherType.DELIVERY -> it.copy(appliedDeliveryVoucher = null)
+            }
+            next.copy(
+                totalSavings = computeSavings(next.appliedProductVoucher, next.appliedDeliveryVoucher, next.orderTotal)
+            )
+        }
     }
 
     fun onHiddenCodeInputChanged(text: String) {
@@ -72,9 +81,16 @@ class VoucherViewModel(
      * This is the only path that can unlock a hidden voucher, since
      * [VoucherRepository.getVoucherByCode] searches the full catalog regardless
      * of [Voucher.isHidden] — the code must match exactly.
+     *
+     * An empty/blank input is not an error — Apply is a no-op until the user actually
+     * types something, rather than immediately flagging "invalid code".
      */
     fun redeemHiddenCode() {
         val current = _uiState.value
+        if (current.hiddenCodeInput.isBlank()) {
+            updateState { it.copy(hiddenCodeError = false) }
+            return
+        }
         val validated = voucherRepository.validateVoucher(current.hiddenCodeInput, current.orderTotal)
         if (validated == null) {
             updateState { it.copy(hiddenCodeError = true) }
@@ -84,21 +100,28 @@ class VoucherViewModel(
         }
     }
 
+    /** Applies [voucher] into its type's slot — PRODUCT and DELIVERY slots never clobber each other. */
     private fun applyVoucher(voucher: Voucher) {
         updateState {
-            it.copy(
-                appliedVoucher = voucher,
-                totalSavings = computeSavings(voucher, it.orderTotal)
+            val next = when (voucher.type) {
+                VoucherType.PRODUCT -> it.copy(appliedProductVoucher = voucher)
+                VoucherType.DELIVERY -> it.copy(appliedDeliveryVoucher = voucher)
+            }
+            next.copy(
+                totalSavings = computeSavings(next.appliedProductVoucher, next.appliedDeliveryVoucher, next.orderTotal)
             )
         }
     }
 
-    private fun computeSavings(voucher: Voucher?, orderTotal: Long): Long {
-        voucher ?: return 0L
-        if (orderTotal < voucher.minSpend) return 0L
-        return when (voucher.type) {
-            VoucherType.PRODUCT -> orderTotal * voucher.value / 100
-            VoucherType.DELIVERY -> LocalMockData.DEFAULT_SHIPPING_FEE
-        }
+    private fun computeSavings(productVoucher: Voucher?, deliveryVoucher: Voucher?, orderTotal: Long): Long {
+        val productSavings = productVoucher
+            ?.takeIf { orderTotal >= it.minSpend }
+            ?.let { orderTotal * it.value / 100 }
+            ?: 0L
+        val deliverySavings = deliveryVoucher
+            ?.takeIf { orderTotal >= it.minSpend }
+            ?.let { LocalMockData.DEFAULT_SHIPPING_FEE }
+            ?: 0L
+        return productSavings + deliverySavings
     }
 }

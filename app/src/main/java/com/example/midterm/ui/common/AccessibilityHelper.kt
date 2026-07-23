@@ -52,11 +52,17 @@ fun View.applyAccessibilitySupport(label: String, targetSizeDp: Int = 48) {
     if (layoutParams is ViewGroup.MarginLayoutParams) {
         val lp = layoutParams as ViewGroup.MarginLayoutParams
         var changed = false
-        if (measuredWidth < minPx) {
+        if (lp.width != ViewGroup.LayoutParams.WRAP_CONTENT &&
+            lp.width != ViewGroup.LayoutParams.MATCH_PARENT &&
+            measuredWidth < minPx
+        ) {
             lp.width = minPx
             changed = true
         }
-        if (measuredHeight < minPx) {
+        if (lp.height != ViewGroup.LayoutParams.WRAP_CONTENT &&
+            lp.height != ViewGroup.LayoutParams.MATCH_PARENT &&
+            measuredHeight < minPx
+        ) {
             lp.height = minPx
             changed = true
         }

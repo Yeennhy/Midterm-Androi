@@ -13,16 +13,21 @@ import com.example.midterm.data.model.Voucher
  *
  * @property productVouchers Visible vouchers for the "Product discount" tab.
  * @property deliveryVouchers Visible vouchers for the "Delivery discount" tab.
- * @property appliedVoucher Currently applied voucher, visible or hidden.
+ * @property appliedProductVoucher Currently applied PRODUCT-type voucher, if any.
+ * @property appliedDeliveryVoucher Currently applied DELIVERY-type voucher, if any.
+ *                                  Kept in a separate slot from [appliedProductVoucher] so picking
+ *                                  one type never clears the other — both can be active at once.
  * @property selectedTab 0 = product tab, 1 = delivery tab.
  * @property hiddenCodeInput Text currently typed into the "enter code" field.
  * @property hiddenCodeError True when the last submitted code didn't match any voucher.
- * @property totalSavings Amount the applied voucher saves against [orderTotal].
+ * @property totalSavings Combined amount [appliedProductVoucher] and [appliedDeliveryVoucher] save
+ *                         against [orderTotal].
  */
 data class VoucherUiState(
     val productVouchers: List<Voucher> = emptyList(),
     val deliveryVouchers: List<Voucher> = emptyList(),
-    val appliedVoucher: Voucher? = null,
+    val appliedProductVoucher: Voucher? = null,
+    val appliedDeliveryVoucher: Voucher? = null,
     val orderTotal: Long = 0L,
     val selectedTab: Int = 0,
     val hiddenCodeInput: String = "",
