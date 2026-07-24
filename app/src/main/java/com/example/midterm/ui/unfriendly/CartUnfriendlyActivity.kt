@@ -101,7 +101,7 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
                     )
 
                     val selectAllRes = if (state.isSelectAll) {
-                        R.drawable.enter_voucher
+                        R.drawable.tick_all
                     } else {
                         R.drawable.select_all
                     }

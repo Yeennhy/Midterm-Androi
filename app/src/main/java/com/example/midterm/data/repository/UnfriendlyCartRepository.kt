@@ -63,12 +63,9 @@ class UnfriendlyCartRepository {
     }
 
     fun updateQuantity(productId: String, quantity: Int, variantId: String? = null) {
-        if (quantity <= 0) {
-            removeProduct(productId, variantId)
-            return
-        }
+        val finalQty = quantity.coerceAtLeast(0)
         _cartItems.value = _cartItems.value.map { item ->
-            if (item.matches(productId, variantId)) item.copy(quantity = quantity) else item
+            if (item.matches(productId, variantId)) item.copy(quantity = finalQty) else item
         }
     }
 
@@ -145,17 +142,13 @@ class UnfriendlyCartRepository {
         variantId: String? = null
     ) {
         _cartItems.value =
-            _cartItems.value.mapNotNull {
-
-                if (!it.matches(productId, variantId))
-                    return@mapNotNull it
-
-                val newQty = it.quantity - 1
-
-                if (newQty <= 0)
-                    null
-                else
+            _cartItems.value.map {
+                if (it.matches(productId, variantId)) {
+                    val newQty = (it.quantity - 1).coerceAtLeast(0)
                     it.copy(quantity = newQty)
+                } else {
+                    it
+                }
             }
     }
     fun getCartItem(
