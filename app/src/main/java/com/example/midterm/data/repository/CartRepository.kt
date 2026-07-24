@@ -14,11 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
  * UDF Design: The cart state is held as a private MutableStateFlow and
  * exposed as an immutable StateFlow. Mutations (add, remove, update)
  * emit new lists, which triggers recomposition/observation in the UI.
- * This enforces a unidirectional data flow:
- *   UI Event -> ViewModel -> Repository mutation -> StateFlow emission -> UI update
- *
- * A cart line is identified by (productId, variantId) — the same product with
- * two different variants (e.g. a Red pen and a Blue pen) are separate rows.
  *
  * Manual DI: CartRepository is a singleton-like instance injected via
  * ViewModelProvider.Factory constructor.
@@ -66,6 +61,20 @@ class CartRepository {
     fun toggleSelection(productId: String, variantId: String? = null) {
         _cartItems.value = _cartItems.value.map { item ->
             if (item.matches(productId, variantId)) item.copy(isSelected = !item.isSelected) else item
+        }
+    }
+
+    fun setSelectAll(isSelected: Boolean) {
+        _cartItems.value = _cartItems.value.map { item ->
+            item.copy(isSelected = isSelected)
+        }
+    }
+
+    fun updateVariant(productId: String, oldVariantId: String?, newVariant: ProductVariant) {
+        _cartItems.value = _cartItems.value.map { item ->
+            if (item.matches(productId, oldVariantId)) {
+                item.copy(selectedVariant = newVariant)
+            } else item
         }
     }
 
@@ -188,3 +197,4 @@ class CartRepository {
     fun getSelectedItemCount(): Int =
         _cartItems.value.count { it.isSelected }
 }
+

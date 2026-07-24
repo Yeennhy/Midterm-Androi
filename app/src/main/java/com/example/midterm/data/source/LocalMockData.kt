@@ -1,6 +1,7 @@
 package com.example.midterm.data.source
 
 import com.example.midterm.data.model.Address
+import com.example.midterm.data.model.CartItem
 import com.example.midterm.data.model.PaymentMethod
 import com.example.midterm.data.model.Product
 import com.example.midterm.data.model.ProductVariant
@@ -12,8 +13,6 @@ import com.example.midterm.data.model.VoucherType
  * payment methods, and addresses for the seminar demo.
  *
  * MVVM Layer: This is the "source of truth" that repositories read from.
- * In a real app this would be replaced with network/DB calls, but the
- * Repository pattern ensures the rest of the app is unaffected by the swap.
  */
 object LocalMockData {
 
@@ -113,7 +112,26 @@ object LocalMockData {
             keychainVariants
         )
     )
-
+    val initialCartItems: List<CartItem> = listOf(
+        CartItem(
+            product = products[0],
+            quantity = 1,
+            isSelected = true,
+            selectedVariant = notebookVariants[0] // A5 • Dotted
+        ),
+        CartItem(
+            product = products[1],
+            quantity = 2,
+            isSelected = true,
+            selectedVariant = penVariants[0] // 0.5mm • Earth Tones
+        ),
+        CartItem(
+            product = products[2],
+            quantity = 1,
+            isSelected = false,
+            selectedVariant = weightVariants[0] // 300g • Polished
+        )
+    )
     // ── Vouchers ──────────────────────────────────────────────
     // Visible vouchers show up in the Discount page's Product/Delivery lists.
     // Hidden vouchers (isHidden = true) are omitted from those lists and only
@@ -278,3 +296,4 @@ object LocalMockData {
         isDefault = true
     )
 }
+

@@ -1,6 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/voucherCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#F0EBE1"
+    app:strokeWidth="1dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Left Colored Badge Box -->
+        <LinearLayout
+            android:id="@+id/layoutLeftBadge"
+            android:layout_width="104dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            android:backgroundTint="#A44222"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/ivVoucherIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@null"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_voucher_tag"
+                app:tint="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/tvBadgeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="20% OFF" />
+        </LinearLayout>
+
+        <!-- Right Content Info Section -->
+        <TextView
+            android:id="@+id/tvVoucherTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#1E2421"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/rbSelectVoucher"
+            app:layout_constraintStart_toEndOf="@id/layoutLeftBadge"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Storewide Special" />
+
+        <TextView
+            android:id="@+id/tvVoucherDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#5A6660"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/rbSelectVoucher"
+            app:layout_constraintStart_toEndOf="@id/layoutLeftBadge"
+            app:layout_constraintTop_toBottomOf="@id/tvVoucherTitle"
+            tools:text="Min. spend 30k • Cap 50k" />
+
+        <TextView
+            android:id="@+id/tvVoucherExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:letterSpacing="0.05"
+            android:textColor="#8A9690"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/layoutLeftBadge"
+            app:layout_constraintTop_toBottomOf="@id/tvVoucherDescription"
+            tools:text="EXPIRES 30 SEP" />
+
+        <TextView
+            android:id="@+id/tvVoucherCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="#2D4F43"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/layoutLeftBadge"
+            app:layout_constraintTop_toBottomOf="@id/tvVoucherExpiry"
+            tools:text="MUJI_ZEN_20" />
+
+        <!-- Radio Button / Selection Indicator -->
+        <RadioButton
+            android:id="@+id/rbSelectVoucher"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:buttonTint="#2D4F43"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
