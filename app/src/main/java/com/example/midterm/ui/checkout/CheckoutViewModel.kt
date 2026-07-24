@@ -104,7 +104,7 @@ class CheckoutViewModel(
 
     fun confirmOrder() {
         updateState { it.copy(isOrderConfirmed = true, isOrderSuccess = true) }
-        cartRepository.clearCart()
+        cartRepository.clearSelectedItems()
         voucherRepository.clearVouchers()
         seminarRepository.markCompleted()
     }

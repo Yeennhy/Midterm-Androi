@@ -100,8 +100,28 @@ class CartViewModel(
         updateState { it.copy(selectedCartItemForVariant = cartItem) }
     }
 
+    /** Map operation on existing cart items: finds target item, updates variant, keeps all other items intact */
     fun onVariantSelected(cartItem: CartItem, newVariant: ProductVariant) {
-        updateState { it.copy(selectedCartItemForVariant = null) }
+        val updatedList = _uiState.value.cartItems.map { item ->
+            if (item.product.id == cartItem.product.id &&
+                (cartItem.selectedVariant == null || item.selectedVariant?.id == cartItem.selectedVariant.id)) {
+                item.copy(selectedVariant = newVariant)
+            } else {
+                item
+            }
+        }
+        val checkedItems = updatedList.filter { it.isSelected }
+        val newSubtotal = checkedItems.sumOf { item ->
+            val unitPrice = item.product.price + (item.selectedVariant?.extraPrice ?: 0L)
+            unitPrice * item.quantity
+        }
+        updateState {
+            it.copy(
+                cartItems = updatedList,
+                subtotal = newSubtotal,
+                selectedCartItemForVariant = null
+            )
+        }
         cartRepository.updateVariant(cartItem.product.id, cartItem.selectedVariant?.id, newVariant)
     }
 

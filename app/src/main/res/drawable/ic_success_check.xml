@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="88dp"
+    android:height="88dp"
+    android:viewportWidth="88"
+    android:viewportHeight="88">
+  <!-- Background Circle: Dark Green (#2E7D32) -->
+  <path
+      android:fillColor="#2E7D32"
+      android:pathData="M44,44m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"/>
+  <!-- Checkmark: Pure White (#FFFFFF) for WCAG High Contrast compliance -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M37,56.6L24.4,44L28.6,39.8L37,48.2L57.4,27.8L61.6,32L37,56.6Z"/>
+</vector>

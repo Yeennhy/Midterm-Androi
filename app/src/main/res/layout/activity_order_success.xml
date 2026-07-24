@@ -7,27 +7,17 @@
     android:background="#FAF6F0"
     android:padding="24dp">
 
-    <!-- Success Checkmark Circle -->
-    <FrameLayout
-        android:id="@+id/layoutCheckCircle"
+    <!-- High-Contrast Success Checkmark (Dark Green #2E7D32 Circle with Pure White #FFFFFF Checkmark) -->
+    <ImageView
+        android:id="@+id/ivSuccessCheck"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/bg_footer_card"
-        android:backgroundTint="#2E4A3E"
+        android:contentDescription="Order Success Checkmark"
+        android:src="@drawable/ic_success_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivSuccessCheck"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:contentDescription="@null"
-            android:src="@android:drawable/checkbox_on_background"
-            app:tint="#66BB6A" />
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvOrderSuccessTitle"
@@ -40,7 +30,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutCheckCircle" />
+        app:layout_constraintTop_toBottomOf="@id/ivSuccessCheck" />
 
     <TextView
         android:id="@+id/tvOrderId"
@@ -61,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:gravity="center"
         android:fontFamily="@font/hanken_grotesk_regular"
+        android:gravity="center"
         android:text="Thank you for your purchase."
         android:textColor="#5A6660"
         android:textSize="15sp"
@@ -134,9 +124,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/hanken_grotesk_bold"
+                    android:text="FREE"
                     android:textColor="#2E7D32"
-                    android:textSize="15sp"
-                    android:text="FREE" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <View

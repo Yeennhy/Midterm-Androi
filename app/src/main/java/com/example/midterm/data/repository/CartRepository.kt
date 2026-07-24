@@ -61,21 +61,28 @@ class CartRepository {
         }
     }
 
+    /** Map operation finding the specific item and updating its variant while keeping all other items intact */
     fun updateVariant(productId: String, oldVariantId: String?, newVariant: ProductVariant) {
         _cartItems.value = _cartItems.value.map { item ->
-            if (item.matches(productId, oldVariantId)) {
+            if (item.product.id == productId && (oldVariantId == null || item.selectedVariant?.id == oldVariantId)) {
                 item.copy(selectedVariant = newVariant)
-            } else item
+            } else {
+                item
+            }
         }
     }
 
+    /** Removes only selected items upon purchase completion; unselected items persist in the cart */
+    fun clearSelectedItems() {
+        _cartItems.value = _cartItems.value.filterNot { it.isSelected }
+    }
+
     fun clearCart() {
-        _cartItems.value = emptyList()
+        clearSelectedItems()
     }
 
     fun getSelectedItems(): List<CartItem> = _cartItems.value.filter { it.isSelected }
 
     private fun CartItem.matches(productId: String, variantId: String?): Boolean =
-        product.id == productId && selectedVariant?.id == variantId
+        product.id == productId && (variantId == null || selectedVariant?.id == variantId)
 }
-
