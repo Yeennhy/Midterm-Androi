@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="false"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="#EEEEEE">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <!-- Left Part -->
+        <LinearLayout
+            android:id="@+id/leftSection"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#9F4123"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgVoucherType"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/tag_icon"
+                app:tint="@android:color/white"
+                android:contentDescription="Voucher Type" />
+
+            <TextView
+                android:id="@+id/tvVoucherValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="20% OFF"
+                android:fontFamily="@font/spacegrotesk_bold"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <!-- Right Part -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tvVoucherTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="Min. spend 100k • Cap 10k"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/tvVoucherSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvVoucherTitle"
+                android:layout_marginTop="12dp"
+                android:text="EXPIRES 30 SEP"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:textColor="#8C8C8C"
+                android:textSize="10sp"
+                android:textAllCaps="true"/>
+
+            <TextView
+                android:id="@+id/tvVoucherCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvVoucherSubtitle"
+                android:layout_marginTop="2dp"
+                android:text="DELIVERY_20"
+                android:textColor="#2D4B3D"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <RadioButton
+                android:id="@+id/rbVoucher"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+
+                android:layout_centerVertical="true"
+                android:buttonTint="#8C8C8C"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingLeft="3dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

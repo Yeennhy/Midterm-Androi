@@ -1,4 +1,3 @@
 package com.example.midterm.ui.voucher
 
-class VoucherAdapter {
-}
+typealias VoucherAdapter = com.example.midterm.ui.common.VoucherAdapter

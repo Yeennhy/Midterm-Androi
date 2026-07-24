@@ -5,8 +5,9 @@ import android.os.Bundle
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.databinding.ActivityMainBinding
-import com.example.midterm.ui.accessible.AccessibleActivity
 import com.example.midterm.ui.base.BaseActivity
+import com.example.midterm.ui.cart.CartActivity
+import com.example.midterm.ui.unfriendly.CartUnfriendlyActivity
 import com.example.midterm.ui.unfriendly.UnfriendlyActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -15,15 +16,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
 
         binding.btnAccessibleUi.setOnClickListener {
-            startMode(AccessibilityMode.ACCESSIBLE, AccessibleActivity::class.java)
+            ServiceLocator.seminarRepository.setAccessibilityMode(AccessibilityMode.ACCESSIBLE)
+            startActivity(Intent(this, CartActivity::class.java))
         }
-        binding.btnUnfriendlyUi.setOnClickListener {
-            startMode(AccessibilityMode.INACCESSIBLE, UnfriendlyActivity::class.java)
-        }
-    }
 
-    private fun startMode(mode: AccessibilityMode, target: Class<*>) {
-        ServiceLocator.seminarRepository.setAccessibilityMode(mode)
-        startActivity(Intent(this, target))
+        binding.btnUnfriendlyUi.setOnClickListener {
+            ServiceLocator.seminarRepository.setAccessibilityMode(AccessibilityMode.INACCESSIBLE)
+            startActivity(Intent(this, CartUnfriendlyActivity::class.java))
+        }
     }
 }

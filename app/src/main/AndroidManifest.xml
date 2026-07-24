@@ -23,13 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.accessible.AccessibleActivity"
-            android:exported="false"
-            android:label="@string/btn_accessible_ui" />
-        <activity
             android:name=".ui.unfriendly.UnfriendlyActivity"
             android:exported="false"
             android:label="@string/btn_unfriendly_ui" />
+        <activity
+            android:name=".ui.unfriendly.CartUnfriendlyActivity"
+            android:exported="false"
+            android:label="Unfriendly Cart" />
+                    <activity
+            android:name=".ui.checkout.UnfriendlyCheckoutActivity"
+            android:exported="false"
+            android:label="Unfriendly Checkout" />
+        <activity
+            android:name=".ui.unfriendly.UnfriendlyVoucherActivity"
+            android:exported="false"
+            android:label="Unfriendly Voucher" />
         <activity
             android:name=".ui.cart.CartActivity"
             android:exported="false"
@@ -42,6 +50,14 @@
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="false"
             android:label="@string/nav_checkout" />
+        <activity
+            android:name=".ui.checkout.ConfirmationActivity"
+            android:exported="false"
+            android:label="@string/nav_checkout" />
+        <activity
+            android:name=".ui.checkout.OrderSuccessActivity"
+            android:exported="false"
+            android:label="Checkout Success"/>
     </application>
 
 </manifest>

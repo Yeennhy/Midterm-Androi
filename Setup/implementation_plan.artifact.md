@@ -26,7 +26,7 @@ com.example.midterm/
 │   ├── model/               # Immutable domain/data entities
 │   │   ├── Product.kt       # ID, name, price (Long), category, imageResId
 │   │   ├── CartItem.kt      # Product, quantity, selection state
-│   │   ├── Voucher.kt       # Code, type (discount/shipping), value, minSpend, color
+│   │   ├── UnfriendlyVoucher.kt       # Code, type (discount/shipping), value, minSpend, color
 │   │   ├── Address.kt       # Delivery address fields
 │   │   ├── PaymentMethod.kt # ID, name, icon res, description
 │   │   ├── SeminarTask.kt   # Required shopping list & voucher combinations
