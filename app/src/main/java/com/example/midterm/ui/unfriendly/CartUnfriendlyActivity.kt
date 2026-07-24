@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midterm.R
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.data.model.CartItem
+import com.example.midterm.data.source.LocalMockData
 import com.example.midterm.databinding.ActivityUnfriendlyCartBinding
 import com.example.midterm.ui.base.ViewModelFactory
 import kotlinx.coroutines.launch
@@ -52,7 +53,7 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
             val intent = Intent(this, com.example.midterm.ui.checkout.UnfriendlyCheckoutActivity::class.java).apply {
                 putExtra("itemCount", state.selectedCount)
                 putExtra("subtotal", state.subtotal)
-                putExtra("shippingFee", state.shippingFee)
+                putExtra("shippingFee", LocalMockData.DEFAULT_SHIPPING_FEE)
                 putExtra("voucherProductCode", state.voucherProductCode)
                 putExtra("voucherProductDiscount", state.voucherProductDiscount)
                 putExtra("voucherShippingCode", state.voucherShippingCode)
