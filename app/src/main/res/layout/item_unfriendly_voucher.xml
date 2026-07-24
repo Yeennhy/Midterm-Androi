@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="20% OFF"
+                android:fontFamily="@font/spacegrotesk_bold"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="14sp"/>
@@ -61,6 +62,7 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:textSize="14sp"
+                android:fontFamily="@font/hankengrotesk_bold"
                 android:maxLines="2"
                 android:ellipsize="end"/>
 
@@ -71,6 +73,7 @@
                 android:layout_below="@id/tvVoucherTitle"
                 android:layout_marginTop="12dp"
                 android:text="EXPIRES 30 SEP"
+                android:fontFamily="@font/hankengrotesk_bold"
                 android:textColor="#8C8C8C"
                 android:textSize="10sp"
                 android:textAllCaps="true"/>
@@ -83,6 +86,7 @@
                 android:layout_marginTop="2dp"
                 android:text="DELIVERY_20"
                 android:textColor="#2D4B3D"
+                android:fontFamily="@font/hankengrotesk_bold"
                 android:textStyle="bold"
                 android:textSize="14sp"/>
 
@@ -91,6 +95,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+
                 android:layout_centerVertical="true"
                 android:buttonTint="#8C8C8C"
                 android:clickable="false"

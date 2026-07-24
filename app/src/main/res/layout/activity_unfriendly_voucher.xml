@@ -15,11 +15,10 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_icon"
-            android:rotation="180"
+            android:src="@drawable/back_arrow"
             app:tint="#2D4B3D"
             android:contentDescription="Go Back" />
 
@@ -28,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Discount"
+            android:fontFamily="@font/hankengrotesk_bold"
             android:textColor="#2D4B3D"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -55,14 +55,13 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/btnConfirm"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/bg_confirm_button"
-            android:src="@drawable/enter_voucher"
-            android:scaleType="centerInside"
+            android:background="@drawable/bg_confirm_button_rect"
+            android:src="@drawable/white_tick"
             android:contentDescription="Confirm Voucher" />
     </LinearLayout>
 
@@ -98,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="232.000đ"
+                android:fontFamily="@font/spacegrotesk_regular"
                 android:textColor="#8C8C8C"
                 android:textSize="16sp"
                 android:layout_marginEnd="12dp" />
@@ -107,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="210.000đ"
+                android:fontFamily="@font/spacegrotesk_bold"
                 android:textColor="#9F4123"
                 android:textSize="22sp"
                 android:textStyle="bold" />

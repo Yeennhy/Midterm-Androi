@@ -47,6 +47,7 @@
                     android:layout_weight="1"
                     android:text="50.000đ"
                     android:textColor="#9F4123"
+                    android:fontFamily="@font/spacegrotesk_bold"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
                     android:textSize="15sp"/>
@@ -64,6 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="-"
+                        android:fontFamily="@font/spacegrotesk_bold"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
 
@@ -73,6 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="14dp"
                         android:text="1"
+                        android:fontFamily="@font/spacegrotesk_bold"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
 
@@ -81,6 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
+                        android:fontFamily="@font/spacegrotesk_bold"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
 
@@ -95,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Linen Hardcover Notebook"
+                android:fontFamily="@font/hankengrotesk_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
 
@@ -108,6 +113,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="3dp"
                 android:text="A5 • Dotted"
+                android:fontFamily="@font/hankengrotesk_bold"
                 android:textColor="#000000"
                 android:textSize="11sp"/>
 

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cart"
+        android:fontFamily="@font/hankengrotesk_bold"
         android:textStyle="bold"
         android:textSize="24sp"
         android:gravity="center"
@@ -76,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Products"
+            android:fontFamily="@font/hankengrotesk_bold"
             android:textStyle="bold"
             android:textSize="22sp"
             android:textColor="@android:color/black"/>
@@ -159,6 +161,7 @@
                     android:id="@+id/tvSubtotal"
                     android:text="Subtotal (3 items)"
                     android:textSize="12sp"
+                    android:fontFamily="@font/hankengrotesk_regular"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -175,6 +178,7 @@
                 <TextView
                     android:id="@+id/tvTotalPrice"
                     android:text="210.000đ"
+                    android:fontFamily="@font/spacegrotesk_bold"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"

@@ -60,7 +60,7 @@
         android:layout_marginTop="24dp"
         android:textSize="16dp"
         android:text="Thank you for your purchase."
-        android:fontFamily="@font/hankengrotesk_regular"
+        android:fontFamily="@font/hankengrotesk_medium"
         />
 
     <ImageView
