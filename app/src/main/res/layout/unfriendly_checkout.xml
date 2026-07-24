@@ -346,7 +346,7 @@
                         android:id="@+id/checkout_subtotal_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Subtotal"
+                        android:text="Products Subtotal"
                         android:fontFamily="@font/hankengrotesk_regular"
                         android:textSize="14dp"
                         app:layout_constraintTop_toBottomOf="@id/checkout_summary_divider_2"

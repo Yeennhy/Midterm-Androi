@@ -52,8 +52,6 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
                 putExtra("itemCount", state.selectedCount)
                 putExtra("subtotal", state.subtotal)
                 putExtra("shippingFee", state.shippingFee)
-                putExtra("initTotal", state.initTotal)
-                putExtra("total", state.totalPrice)
                 putExtra("voucherProductCode", state.voucherProductCode)
                 putExtra("voucherProductDiscount", state.voucherProductDiscount)
                 putExtra("voucherShippingCode", state.voucherShippingCode)

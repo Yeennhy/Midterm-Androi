@@ -25,9 +25,19 @@ class UnfriendlyCheckoutActivity : AppCompatActivity() {
         binding = UnfriendlyCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val cartSummary = CartSummaryExtras(
+            itemCount = intent.getIntExtra("itemCount", 0),
+            subtotal = intent.getLongExtra("subtotal", 0L),
+            shippingFee = intent.getLongExtra("shippingFee", 0L),
+            voucherProductCode = intent.getStringExtra("voucherProductCode") ?: "",
+            voucherProductDiscount = intent.getLongExtra("voucherProductDiscount", 0L),
+            voucherShippingCode = intent.getStringExtra("voucherShippingCode") ?: "",
+            voucherShippingDiscount = intent.getLongExtra("voucherShippingDiscount", 0L)
+        )
+
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory { UnfriendlyCheckoutViewModel(ServiceLocator.cartRepository) }
+            ViewModelFactory { UnfriendlyCheckoutViewModel(ServiceLocator.cartRepository, cartSummary) }
         )[UnfriendlyCheckoutViewModel::class.java]
 
         setupViews()
@@ -102,7 +112,7 @@ class UnfriendlyCheckoutActivity : AppCompatActivity() {
         binding.checkoutProductVoucherLabel.visibility = productVoucherVisibility
         binding.checkoutProductVoucherValue.visibility = productVoucherVisibility
 
-        binding.checkoutSubtotalValue.text = CurrencyFormatter.format(state.total)
+        binding.checkoutSubtotalValue.text = CurrencyFormatter.format(state.total-state.shippingFee)
         val isFreeShipping = state.shippingFee == 0L
         binding.checkoutShippingValue.text =
             if (isFreeShipping) "FREE" else CurrencyFormatter.format(state.shippingFee)
