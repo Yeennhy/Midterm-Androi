@@ -30,10 +30,10 @@ class UnfriendlyCheckoutViewModel(
                 val voucherShippingDiscount = rawShippingFee // fully waives shipping for now
                 val voucherProductCode = "WELCOME"
                 val voucherProductDiscount = 10000L
-                val netShippingFee = rawShippingFee - voucherShippingDiscount
+                val netShippingFee = (rawShippingFee - voucherShippingDiscount).coerceAtLeast(0L)
 
                 val initTotal = subtotal + rawShippingFee
-                val total = initTotal-voucherShippingDiscount-voucherProductDiscount
+                val total = (initTotal - voucherShippingDiscount - voucherProductDiscount).coerceAtLeast(0L)
 
                 updateState { state ->
                     state.copy(

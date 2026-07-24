@@ -61,7 +61,7 @@ class UnfriendlyCartAdapter(
             val strokeColor = if (item.isSelected) {
                 Color.parseColor("#9F4123")
             } else {
-                Color.LTGRAY
+                Color.TRANSPARENT
             }
             binding.root.strokeColor = strokeColor
 

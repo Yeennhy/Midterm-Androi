@@ -42,7 +42,24 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
         binding.rvProducts.adapter = adapter
 
         binding.btnNext.setOnClickListener {
-            Toast.makeText(this, "Proceeding to checkout...", Toast.LENGTH_SHORT).show()
+            val state = viewModel.uiState.value
+            if (state.selectedCount == 0) {
+                Toast.makeText(this, "Please select at least one item", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val intent = Intent(this, com.example.midterm.ui.checkout.UnfriendlyCheckoutActivity::class.java).apply {
+                putExtra("itemCount", state.selectedCount)
+                putExtra("subtotal", state.subtotal)
+                putExtra("shippingFee", state.shippingFee)
+                putExtra("initTotal", state.initTotal)
+                putExtra("total", state.totalPrice)
+                putExtra("voucherProductCode", state.voucherProductCode)
+                putExtra("voucherProductDiscount", state.voucherProductDiscount)
+                putExtra("voucherShippingCode", state.voucherShippingCode)
+                putExtra("voucherShippingDiscount", state.voucherShippingDiscount)
+            }
+            startActivity(intent)
         }
 
         binding.voucherSelect.setOnClickListener {
@@ -86,7 +103,7 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
                     )
 
                     val selectAllRes = if (state.isSelectAll) {
-                        R.drawable.tick_all
+                        R.drawable.enter_voucher
                     } else {
                         R.drawable.select_all
                     }

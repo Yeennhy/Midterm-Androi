@@ -15,5 +15,10 @@ data class CartUiState(
     val discount: Long = 0L,
     val totalPrice: Long = 0L,
     val selectedCount: Int = 0,
-    val isSelectAll: Boolean = false
+    val isSelectAll: Boolean = false,
+    val voucherProductCode: String = "",
+    val voucherProductDiscount: Long = 0L,
+    val voucherShippingCode: String = "",
+    val voucherShippingDiscount: Long = 0L,
+    val initTotal: Long = 0L
 )

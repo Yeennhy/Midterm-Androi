@@ -50,7 +50,7 @@ class UnfriendlyVoucherViewModel(
                         subtotal = subtotal,
                         orderTotal = orderTotal,
                         totalSavings = savings,
-                        discountedTotal = maxOf(0, orderTotal - savings)
+                        discountedTotal = (orderTotal - savings).coerceAtLeast(0L)
                     )
                 }
             }

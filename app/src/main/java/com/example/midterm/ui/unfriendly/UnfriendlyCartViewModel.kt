@@ -41,30 +41,29 @@ class UnfriendlyCartViewModel(
         val subtotal = cartRepository.getSelectedSubtotal()
         val baseShippingFee = if (subtotal == 0L) 0L else LocalMockData.DEFAULT_SHIPPING_FEE
         
-        var discount = 0L
-        productVoucher?.let {
-            discount += (subtotal * it.value / 100)
-        }
+        val productDiscount = if (productVoucher != null) (subtotal * productVoucher.value / 100) else 0L
+        val shippingDiscount = if (deliveryVoucher != null) (baseShippingFee * deliveryVoucher.value / 100) else 0L
         
-        var shippingFee = baseShippingFee
-        deliveryVoucher?.let {
-            val shipDiscount = (baseShippingFee * it.value / 100)
-            shippingFee = baseShippingFee - shipDiscount
-        }
-
-        val totalPrice = subtotal + shippingFee - discount
+        val netShippingFee = (baseShippingFee - shippingDiscount).coerceAtLeast(0L)
+        val totalPrice = (subtotal + netShippingFee - productDiscount).coerceAtLeast(0L)
         val selectedCount = cartRepository.getSelectedItemCount()
         val isSelectAll = items.isNotEmpty() && items.all { it.isSelected }
+        val initTotal = subtotal + baseShippingFee
 
         updateState {
             it.copy(
                 cartItems = items,
                 subtotal = subtotal,
-                shippingFee = shippingFee,
-                discount = discount,
+                shippingFee = netShippingFee,
+                discount = productDiscount,
                 totalPrice = totalPrice,
                 selectedCount = selectedCount,
-                isSelectAll = isSelectAll
+                isSelectAll = isSelectAll,
+                voucherProductCode = productVoucher?.code ?: "",
+                voucherProductDiscount = productDiscount,
+                voucherShippingCode = deliveryVoucher?.code ?: "",
+                voucherShippingDiscount = shippingDiscount,
+                initTotal = initTotal
             )
         }
     }
