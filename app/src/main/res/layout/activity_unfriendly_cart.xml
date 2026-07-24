@@ -16,7 +16,7 @@
         android:textStyle="bold"
         android:textSize="24sp"
         android:gravity="center"
-        android:textColor="@android:color/black"
+        android:textColor="#163328"
         android:layout_marginBottom="16dp"/>
 
     <!-- Progress -->

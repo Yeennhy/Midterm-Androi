@@ -28,8 +28,8 @@
             android:layout_centerInParent="true"
             android:text="Discount"
             android:fontFamily="@font/hankengrotesk_bold"
-            android:textColor="#2D4B3D"
-            android:textSize="22sp"
+            android:textColor="#163328"
+            android:textSize="24sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
