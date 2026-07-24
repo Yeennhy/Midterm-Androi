@@ -260,7 +260,7 @@
                 android:layout_marginTop="12dp" />
 
             <TextView
-                android:id="@+id/checkout_voucher_label"
+                android:id="@+id/checkout_shipping_voucher_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="FREESHIP_NOW"
@@ -268,8 +268,42 @@
                 android:fontFamily="@font/HankenGrotesk_Regular"
                 app:layout_constraintTop_toBottomOf="@id/checkout_summary_divider_1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/checkout_voucher_value"
+                app:layout_constraintEnd_toStartOf="@id/checkout_shipping_voucher_value"
                 android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/checkout_shipping_voucher_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-22.000đ"
+                android:fontFamily="@font/SpaceGrotesk_Bold"
+                android:textColor="@color/terracotta"
+                android:textSize="12dp"
+                app:layout_constraintTop_toTopOf="@id/checkout_shipping_voucher_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+                
+            <TextView
+                android:id="@+id/checkout_product_voucher_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="FREESHIP_NOW"
+                android:textSize="14dp"
+                android:fontFamily="@font/HankenGrotesk_Regular"
+                app:layout_constraintTop_toBottomOf="@id/checkout_shipping_voucher_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/checkout_product_voucher_value"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/checkout_product_voucher_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-22.000đ"
+                android:fontFamily="@font/SpaceGrotesk_Bold"
+                android:textColor="@color/terracotta"
+                android:textSize="12dp"
+                app:layout_constraintTop_toTopOf="@id/checkout_product_voucher_label"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <View
                 android:id="@+id/checkout_summary_divider_2"
@@ -281,16 +315,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@+id/checkout_voucher_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-22.000đ"
-                android:fontFamily="@font/SpaceGrotesk_Bold"
-                android:textColor="@color/terracotta"
-                android:textSize="12dp"
-                app:layout_constraintTop_toTopOf="@id/checkout_voucher_label"
-                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/checkout_subtotal_label"

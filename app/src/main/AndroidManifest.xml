@@ -34,6 +34,10 @@
             android:name=".ui.unfriendly.CartUnfriendlyActivity"
             android:exported="false"
             android:label="Unfriendly Cart" />
+                    <activity
+            android:name=".ui.unfriendly.UnfriendlyCheckoutActivity"
+            android:exported="false"
+            android:label="Unfriendly Checkout" />
         <activity
             android:name=".ui.cart.CartActivity"
             android:exported="false"
