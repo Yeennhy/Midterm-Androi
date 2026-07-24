@@ -84,8 +84,8 @@ class CartActivity : BaseActivity<ActivityCartBinding>(ActivityCartBinding::infl
         binding.btnCheckout.setOnClickListener {
             if (viewModel.uiState.value.isCheckoutEnabled) {
                 binding.root.announceForAccessibility("Navigating to Checkout")
-                val intent = Intent(this, com.example.midterm.ui.checkout.CheckoutActivity::class.java).apply {
-                    putExtra(com.example.midterm.ui.checkout.OrderSuccessActivity.EXTRA_TOTAL_PAID, viewModel.uiState.value.subtotal)
+                val intent = Intent(this, CheckoutActivity::class.java).apply {
+                    putExtra(OrderSuccessActivity.EXTRA_TOTAL, viewModel.uiState.value.subtotal)
                 }
                 startActivity(intent)
             }

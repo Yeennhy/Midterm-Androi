@@ -6,14 +6,13 @@ import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.repository.UnfriendlyCartRepository
 import com.example.midterm.data.source.LocalMockData
 import com.example.midterm.ui.base.BaseViewModel
-import com.example.midterm.ui.cart.CartUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class UnfriendlyCartViewModel(
     private val cartRepository: UnfriendlyCartRepository
-) : BaseViewModel<CartUiState>(CartUiState()) {
+) : BaseViewModel<CartUnfriendlyUiState>(CartUnfriendlyUiState()) {
 
     init {
         observeCart()

@@ -117,19 +117,19 @@ object LocalMockData {
             product = products[0],
             quantity = 1,
             isSelected = true,
-            selectedVariant = notebookVariants[0] // A5 • Dotted
+            selectedVariant = penVariants[0]
         ),
         CartItem(
             product = products[1],
             quantity = 2,
             isSelected = true,
-            selectedVariant = penVariants[0] // 0.5mm • Earth Tones
+            selectedVariant = pencilVariants[0]
         ),
         CartItem(
             product = products[2],
             quantity = 1,
             isSelected = false,
-            selectedVariant = weightVariants[0] // 300g • Polished
+            selectedVariant = notebookVariants[0]
         )
     )
     // ── Vouchers ──────────────────────────────────────────────

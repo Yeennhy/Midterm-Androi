@@ -77,11 +77,12 @@ class OrderSuccessActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val EXTRA_ITEM_COUNT = "extra_item_count"
-        private const val EXTRA_SUBTOTAL = "extra_subtotal"
-        private const val EXTRA_SHIPPING_FEE = "extra_shipping_fee"
-        private const val EXTRA_TOTAL = "extra_total"
-        private const val EXTRA_ORDER_ID = "extra_order_id"
+        const val EXTRA_ITEM_COUNT = "extra_item_count"
+        const val EXTRA_SUBTOTAL = "extra_subtotal"
+        const val EXTRA_SHIPPING_FEE = "extra_shipping_fee"
+        const val EXTRA_TOTAL = "extra_total"
+        const val EXTRA_ORDER_ID = "extra_order_id"
+        const val EXTRA_TOTAL_PAID = "extra_total_paid"
 
         fun buildIntent(
             context: Context,

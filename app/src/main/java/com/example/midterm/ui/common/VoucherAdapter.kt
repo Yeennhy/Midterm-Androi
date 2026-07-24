@@ -45,10 +45,10 @@ class VoucherAdapter(
         fun bind(voucher: Voucher) {
             val isSelected = voucher.code == selectedVoucherCode
 
-            binding.tvBadgeText.text = voucher.discountBadge.ifEmpty { "${voucher.value}% OFF" }
+            binding.tvBadgeText.text = voucher.badgeText.ifEmpty { "${voucher.value}% OFF" }
             binding.tvVoucherTitle.text = voucher.title.ifEmpty { voucher.code }
             binding.tvVoucherDescription.text = voucher.description
-            binding.tvVoucherExpiry.text = voucher.expiryText
+            binding.tvVoucherExpiry.text = voucher.expiryLabel
             binding.tvVoucherCode.text = voucher.code
 
             // Dynamic color & icon: Green (#2E7D32) + Truck for DELIVERY, Red (#A44222) + Tag for PRODUCT

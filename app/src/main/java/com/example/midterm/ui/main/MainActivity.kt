@@ -7,6 +7,7 @@ import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.databinding.ActivityMainBinding
 import com.example.midterm.ui.base.BaseActivity
 import com.example.midterm.ui.cart.CartActivity
+import com.example.midterm.ui.unfriendly.CartUnfriendlyActivity
 import com.example.midterm.ui.unfriendly.UnfriendlyActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -21,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         binding.btnUnfriendlyUi.setOnClickListener {
             ServiceLocator.seminarRepository.setAccessibilityMode(AccessibilityMode.INACCESSIBLE)
-            startActivity(Intent(this, UnfriendlyActivity::class.java))
+            startActivity(Intent(this, CartUnfriendlyActivity::class.java))
         }
     }
 }

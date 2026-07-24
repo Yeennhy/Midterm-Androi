@@ -57,10 +57,6 @@
         <activity
             android:name=".ui.checkout.OrderSuccessActivity"
             android:exported="false"
-            android:label="@string/nav_checkout" />
-        <activity
-            android:name=".ui.checkout.OrderSuccessActivity"
-            android:exported="false"
             android:label="Checkout Success"/>
     </application>
 

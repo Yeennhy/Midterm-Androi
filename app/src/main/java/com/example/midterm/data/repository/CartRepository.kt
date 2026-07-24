@@ -87,19 +87,7 @@ class CartRepository {
     private fun CartItem.matches(productId: String, variantId: String?): Boolean =
         product.id == productId && selectedVariant?.id == variantId
 
-    fun updateVariant(
-        productId: String,
-        oldVariantId: String?,
-        newVariant: ProductVariant
-    ) {
-        _cartItems.value = _cartItems.value.map { item ->
-            if (item.matches(productId, oldVariantId)) {
-                item.copy(selectedVariant = newVariant)
-            } else {
-                item
-            }
-        }
-    }
+
     fun setSelection(
         productId: String,
         selected: Boolean,
