@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.databinding.ActivityUnfriendlyVoucherBinding
 import com.example.midterm.ui.base.ViewModelFactory
+import com.example.midterm.utils.CurrencyFormatter
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -65,10 +66,10 @@ class UnfriendlyVoucherActivity : AppCompatActivity() {
                     adapter.submitList(state.vouchers)
                     adapter.setSelectedVouchers(state.selectedProductVoucher, state.selectedDeliveryVoucher)
                     
-                    binding.tvOriginalPrice.text = String.format(Locale.getDefault(), "%dđ", state.orderTotal)
+                    binding.tvOriginalPrice.text = CurrencyFormatter.format(state.orderTotal)
                     binding.tvOriginalPrice.paintFlags = binding.tvOriginalPrice.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 
-                    binding.tvDiscountedPrice.text = String.format(Locale.getDefault(), "%dđ", state.discountedTotal)
+                    binding.tvDiscountedPrice.text = CurrencyFormatter.format(state.discountedTotal)
                     
                     if (state.hiddenCodeError) {
                         binding.etVoucherCode.error = "Invalid code or min spend not met"

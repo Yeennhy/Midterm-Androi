@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.midterm.data.model.CartItem
 import com.example.midterm.databinding.ItemUnfriendlyCartBinding
+import com.example.midterm.utils.CurrencyFormatter
 
 class UnfriendlyCartAdapter(
     private val listener: UnfriendlyCartItemListener
@@ -46,7 +47,7 @@ class UnfriendlyCartAdapter(
                 item.product.price +
                         (item.selectedVariant?.extraPrice ?: 0L)
 
-            binding.tvPrice.text = "${price}đ"
+            binding.tvPrice.text = CurrencyFormatter.format(price)
 
             binding.tvQuantity.text = item.quantity.toString()
 
