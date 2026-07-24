@@ -1,28 +1,38 @@
 package com.example.midterm.ui.cart
 
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.data.model.AccessibilityMode
+import com.example.midterm.data.model.CartItem
+import com.example.midterm.data.model.Product
 import com.example.midterm.databinding.ActivityCartBinding
 import com.example.midterm.ui.base.BaseActivity
 import com.example.midterm.ui.base.ViewModelFactory
 import com.example.midterm.ui.common.applyAccessibilitySupport
-import com.example.midterm.ui.common.groupForAccessibility
-import com.example.midterm.ui.common.makeLiveRegion
+
 import com.example.midterm.ui.common.postAnnouncement
-import com.example.midterm.ui.common.pruneFromAccessibilityTree
-import com.example.midterm.ui.common.removeAccessibilitySupport
-import com.example.midterm.ui.common.restoreToAccessibilityTree
-import com.example.midterm.ui.common.setAccessibilityTraversal
+import com.example.midterm.ui.checkout.CheckoutActivity
+import com.example.midterm.ui.checkout.OrderSuccessActivity
+
+import com.example.midterm.ui.voucher.VoucherActivity
+
 import com.example.midterm.utils.CurrencyFormatter
 import kotlinx.coroutines.launch
+
 
 class CartActivity : BaseActivity<ActivityCartBinding>(ActivityCartBinding::inflate) {
 
     private lateinit var viewModel: CartViewModel
+    private lateinit var cartAdapter: CartAdapter
+    private var lastSubtotal: Long = -1L
+    private var lastItemCount: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,76 +49,139 @@ class CartActivity : BaseActivity<ActivityCartBinding>(ActivityCartBinding::infl
     }
 
     private fun setupViews() {
-        // ── Traversal order demo (§3.2) ──────────────────────
-        // In a real product card, the XML order might put price before
-        // name. This forces a logical sequence: Name → Price → Quantity.
-        // The container is grouped (see observeState), so these traversal
-        // hints kick in if grouping is ever removed.
-        binding.root.makeLiveRegion()
+        cartAdapter = CartAdapter(
+            onToggleSelect = { item ->
+                viewModel.toggleSelection(item.product.id, item.selectedVariant?.id)
+            },
+            onQuantityChange = { item, delta ->
+                viewModel.onQuantityChanged(item, delta)
+            },
+            onVariantClick = { item ->
+                viewModel.onVariantClicked(item)
+            }
+        )
 
-        // ── Live region for cart status announcements (§3.1) ──
-        // A hidden status TextView (add to layout if missing) would be
-        // wired here. For the demo, we use postAnnouncement directly.
+        binding.rvCartItems.apply {
+            layoutManager = LinearLayoutManager(this@CartActivity)
+            adapter = cartAdapter
+        }
+
+        binding.cbSelectAll.setOnClickListener {
+            viewModel.toggleSelectAll()
+        }
+
+        binding.cardApplyVoucher.setOnClickListener {
+            if (viewModel.uiState.value.selectedCount == 0) {
+                val message = "Please select at least one item to apply vouchers."
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                binding.root.announceForAccessibility(message)
+            } else {
+                startActivity(Intent(this, VoucherActivity::class.java))
+            }
+        }
+
+
+        binding.btnCheckout.setOnClickListener {
+            if (viewModel.uiState.value.isCheckoutEnabled) {
+                binding.root.announceForAccessibility("Navigating to Checkout")
+                val intent = Intent(this, com.example.midterm.ui.checkout.CheckoutActivity::class.java).apply {
+                    putExtra(com.example.midterm.ui.checkout.OrderSuccessActivity.EXTRA_TOTAL_PAID, viewModel.uiState.value.subtotal)
+                }
+                startActivity(intent)
+            }
+        }
+
+
     }
 
     private fun observeState() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    when (state.accessibilityMode) {
-                        AccessibilityMode.ACCESSIBLE -> applyFixMode()
-                        AccessibilityMode.INACCESSIBLE -> applyBreakMode()
-                    }
+                    renderUi(state)
                 }
             }
         }
     }
 
-    /**
-     * ACCESSIBLE mode — fully semantic UI.
-     *
-     * Demonstrates:
-     * 1. **Focus grouping** — product cards are announced as one unit.
-     * 2. **Traversal order** — name → price → quantity (logical sequence).
-     * 3. **Live region** — the container announces cart changes.
-     * 4. **Root label** — screen description for context.
-     */
-    private fun applyFixMode() {
-        // Label the screen root
-        binding.root.applyAccessibilitySupport(label = "Shopping cart screen")
+    private fun renderUi(state: CartUiState) {
+        cartAdapter.accessibilityMode = state.accessibilityMode
+        cartAdapter.submitList(state.cartItems)
 
-        // Restore any container that was pruned in BREAK mode
-        binding.root.restoreToAccessibilityTree()
+        // Select All Checkbox state without triggering listener loop
+        binding.cbSelectAll.setOnCheckedChangeListener(null)
+        binding.cbSelectAll.isChecked = state.isAllSelected
+        binding.cbSelectAll.setOnCheckedChangeListener { _, _ -> }
 
-        // ── Focus grouping on the cart container (§3.2) ───────
-        // Instead of swiping through every child (image, name, price,
-        // quantity, checkbox), TalkBack reads ONE cohesive announcement
-        // for the whole list section.
-        binding.root.groupForAccessibility(
-            label = "Cart items. ${viewModel.uiState.value.cartItems.size} products."
-        )
+        // Subtotal & Items count
+        binding.tvSubtotalLabel.text = "Subtotal (${state.selectedCount} items)"
+        binding.tvSubtotalAmount.text = CurrencyFormatter.format(state.subtotal)
 
-        // ── Live region for dynamic announcements (§3.1) ──────
-        // When items are added or removed, TalkBack automatically
-        // reads the total without moving focus.
-        val totalText = "Total: ${CurrencyFormatter.format(viewModel.uiState.value.totalPrice)}"
-        binding.root.postAnnouncement("Cart updated. $totalText")
+        // Checkout Button state (Enabled vs Disabled)
+        val isEnabled = state.isCheckoutEnabled
+        binding.btnCheckout.isEnabled = isEnabled
+        val buttonColor = if (isEnabled) 0xFF963B1E.toInt() else 0xFF3E4643.toInt()
+        binding.btnCheckout.backgroundTintList = ColorStateList.valueOf(buttonColor)
+
+
+        // Accessibility Labels & Live Region Announcements
+        if (state.accessibilityMode == AccessibilityMode.ACCESSIBLE) {
+            binding.root.applyAccessibilitySupport("Shopping Cart Screen")
+            binding.cbSelectAll.applyAccessibilitySupport(
+                "Select all items, ${if (state.isAllSelected) "Checked" else "Not checked"}"
+            )
+            binding.cardApplyVoucher.applyAccessibilitySupport("Apply discount code button")
+
+            val checkoutAccessibilityDesc = if (isEnabled) {
+                "Checkout button, ${state.selectedCount} items selected, total ${CurrencyFormatter.format(state.subtotal)}"
+            } else {
+                "Checkout, button disabled"
+            }
+            binding.btnCheckout.applyAccessibilitySupport(checkoutAccessibilityDesc)
+
+            // Dynamic Live Region Announcement on price or item count change
+            if (lastSubtotal != -1L && (lastSubtotal != state.subtotal || lastItemCount != state.cartItems.size)) {
+                binding.root.postAnnouncement(
+                    "Cart updated. Subtotal is now ${CurrencyFormatter.format(state.subtotal)} for ${state.selectedCount} selected items."
+                )
+            }
+
+            // Trigger one-time accessibility announcements & error messages
+            state.errorMessage?.let { message ->
+                binding.root.announceForAccessibility(message)
+                viewModel.clearErrorMessage()
+            }
+            state.accessibilityAnnouncement?.let { message ->
+                binding.root.postAnnouncement(message)
+                viewModel.onAnnouncementConsumed()
+            }
+
+        }
+
+        lastSubtotal = state.subtotal
+        lastItemCount = state.cartItems.size
+
+        // Launch VariantSelectorSheet if triggered as a one-time event
+        state.selectedCartItemForVariant?.let { item ->
+            if (supportFragmentManager.findFragmentByTag("VariantSelectorSheet") == null) {
+                showVariantSheet(item)
+            }
+        }
+
     }
 
-    /**
-     * INACCESSIBLE mode — deliberately broken UI.
-     *
-     * Demonstrates:
-     * 1. **Tree pruning** — the entire cart list is removed from the
-     *    accessibility tree. TalkBack swipes and hears nothing, simulating
-     *    a screen-reader that is "lost".
-     * 2. **Individual views stripped** — root loses its label and target size.
-     */
-    private fun applyBreakMode() {
-        // Prune the entire cart container → TalkBack skips the whole area
-        binding.root.pruneFromAccessibilityTree()
-
-        // Also strip the root's individual accessibility metadata
-        binding.root.removeAccessibilitySupport()
+    private fun showVariantSheet(cartItem: CartItem) {
+        val sheet = VariantSelectorSheet.newInstance()
+        sheet.setVariants(
+            variantList = cartItem.product.variants,
+            currentVariantId = cartItem.selectedVariant?.id
+        ) { newVariant ->
+            viewModel.onVariantSelected(cartItem, newVariant)
+        }
+        sheet.setOnDismissListener {
+            viewModel.onVariantSheetDismissed()
+        }
+        sheet.show(supportFragmentManager, "VariantSelectorSheet")
     }
 }
+

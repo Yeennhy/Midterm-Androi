@@ -1,7 +1,7 @@
 package com.example.midterm.ui.cart
 
 import androidx.lifecycle.viewModelScope
-import com.example.midterm.data.model.AccessibilityMode
+import com.example.midterm.data.model.CartItem
 import com.example.midterm.data.model.Product
 import com.example.midterm.data.model.ProductVariant
 import com.example.midterm.data.repository.CartRepository
@@ -11,16 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 /**
- * ViewModel for the Cart screen.
- *
- * UDF Flow:
- *   UI Event (add/remove/toggle) → CartViewModel → CartRepository mutation →
- *   StateFlow emission → CartUiState update → UI re-render
- *
- * Accessibility: Observes SeminarRepository.session.accessibilityMode so the
- * Activity can dynamically apply or strip accessibility support.
- *
- * Manual DI: Both repositories are injected via constructor (ViewModelFactory).
+ * ViewModel for the Shopping Cart screen.
  */
 class CartViewModel(
     private val cartRepository: CartRepository,
@@ -33,46 +24,88 @@ class CartViewModel(
                 cartRepository.cartItems,
                 seminarRepository.session
             ) { items, session ->
-                val total = items
-                    .filter { it.isSelected }
-                    .sumOf { it.product.price * it.quantity }
+                val checkedItems = items.filter { it.isSelected }
+                val calculatedSubtotal: Long = checkedItems.sumOf { item ->
+                    val unitPrice = item.product.price + (item.selectedVariant?.extraPrice ?: 0L)
+                    unitPrice * item.quantity
+                }
+                val selectedCount = checkedItems.size
+                val isAllSelected = items.isNotEmpty() && items.all { it.isSelected }
+                val isCheckoutEnabled = selectedCount > 0
+
                 CartUiState(
                     cartItems = items,
-                    totalPrice = total,
+                    subtotal = calculatedSubtotal,
+                    selectedCount = selectedCount,
+                    isAllSelected = isAllSelected,
+                    isCheckoutEnabled = isCheckoutEnabled,
+                    selectedCartItemForVariant = null,
                     accessibilityMode = session.accessibilityMode
                 )
-            }.collect { state ->
-                updateState { state }
+            }.collect { newState ->
+                updateState { current ->
+                    newState.copy(
+                        selectedCartItemForVariant = current.selectedCartItemForVariant,
+                        accessibilityAnnouncement = current.accessibilityAnnouncement,
+                        errorMessage = current.errorMessage
+                    )
+                }
             }
         }
-    }
-
-    fun addProduct(product: Product, quantity: Int = 1, variant: ProductVariant? = null) {
-        cartRepository.addProduct(product, quantity, variant)
-    }
-
-    fun removeProduct(productId: String, variantId: String? = null) {
-        cartRepository.removeProduct(productId, variantId)
-    }
-
-    fun updateQuantity(productId: String, quantity: Int, variantId: String? = null) {
-        cartRepository.updateQuantity(productId, quantity, variantId)
     }
 
     fun toggleSelection(productId: String, variantId: String? = null) {
         cartRepository.toggleSelection(productId, variantId)
     }
 
-    fun onVariantClicked(product: Product) {
-        // TODO: Show VariantSelectorSheet bottom sheet, backed by product.variants
+    fun toggleSelectAll() {
+        val targetState = !_uiState.value.isAllSelected
+        cartRepository.setSelectAll(targetState)
     }
 
-    /** Called when the user confirms a variant choice in VariantSelectorSheet. */
-    fun onVariantSelected(product: Product, variant: ProductVariant, quantity: Int = 1) {
-        addProduct(product, quantity, variant)
+    fun onQuantityChanged(item: CartItem, delta: Int) {
+        val currentItems = _uiState.value.cartItems
+        val firstItem = currentItems.firstOrNull()
+
+        val isFirstItem = firstItem != null &&
+                firstItem.product.id == item.product.id &&
+                firstItem.selectedVariant?.id == item.selectedVariant?.id
+
+        if (isFirstItem && delta < 0 && item.quantity <= 1) {
+            updateState { it.copy(errorMessage = "Minimum quantity reached for this item") }
+            return
+        }
+
+        val newQuantity = item.quantity + delta
+        if (newQuantity <= 0) {
+            cartRepository.removeProduct(item.product.id, item.selectedVariant?.id)
+        } else {
+            cartRepository.updateQuantity(item.product.id, newQuantity, item.selectedVariant?.id)
+        }
     }
 
-    fun onQuantityChanged(productId: String, delta: Int, variantId: String? = null) {
-        // TODO: Apply delta to current quantity and update via repository
+    fun clearErrorMessage() {
+        updateState { it.copy(errorMessage = null) }
+    }
+
+    fun onAnnouncementConsumed() {
+        updateState { it.copy(accessibilityAnnouncement = null) }
+    }
+
+    fun removeProduct(productId: String, variantId: String? = null) {
+        cartRepository.removeProduct(productId, variantId)
+    }
+
+    fun onVariantClicked(cartItem: CartItem) {
+        updateState { it.copy(selectedCartItemForVariant = cartItem) }
+    }
+
+    fun onVariantSelected(cartItem: CartItem, newVariant: ProductVariant) {
+        updateState { it.copy(selectedCartItemForVariant = null) }
+        cartRepository.updateVariant(cartItem.product.id, cartItem.selectedVariant?.id, newVariant)
+    }
+
+    fun onVariantSheetDismissed() {
+        updateState { it.copy(selectedCartItemForVariant = null) }
     }
 }

@@ -5,14 +5,15 @@ import com.example.midterm.data.model.CartItem
 
 /**
  * UI state for the Cart screen.
- *
- * UDF Contract:
- * - Immutable snapshot emitted by CartViewModel via StateFlow.
- * - CartActivity reads and renders — never mutates directly.
- * - User actions (add, remove, toggle) go to CartViewModel as function calls.
  */
 data class CartUiState(
     val cartItems: List<CartItem> = emptyList(),
-    val totalPrice: Long = 0L,
+    val subtotal: Long = 0L,
+    val selectedCount: Int = 0,
+    val isAllSelected: Boolean = true,
+    val isCheckoutEnabled: Boolean = false,
+    val selectedCartItemForVariant: CartItem? = null,
+    val accessibilityAnnouncement: String? = null,
+    val errorMessage: String? = null,
     val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE
 )

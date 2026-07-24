@@ -1,6 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAF6F0"
+    android:paddingTop="16dp">
+
+    <!-- Top Bar: Back Button & Title "Discount" -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Navigate back"
+        android:padding="4dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toBottomOf="@id/tvVoucherTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvVoucherTitle"
+        app:tint="#1E2421" />
+
+    <TextView
+        android:id="@+id/tvVoucherTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discount"
+        android:textColor="#1E2421"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Code Input Section -->
+    <TextView
+        android:id="@+id/tvCodeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Enter code"
+        android:textColor="#1E2421"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvVoucherTitle" />
+
+    <LinearLayout
+        android:id="@+id/layoutInputRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCodeLabel">
+
+        <EditText
+            android:id="@+id/etVoucherCode"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/edit_text"
+            android:backgroundTint="#F2ECE1"
+            android:hint="e.g. SUMMER24"
+            android:inputType="textCapCharacters"
+            android:paddingHorizontal="16dp"
+            android:textColor="#1E2421"
+            android:textColorHint="#9EA6A1"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApplyCode"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#A44222"
+            android:text="Apply"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCodeError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:text="Invalid or expired voucher code"
+        android:textColor="#D32F2F"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutInputRow" />
+
+    <!-- Tabs: Product Discount | Delivery Discount -->
+    <LinearLayout
+        android:id="@+id/layoutTabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCodeError">
+
+        <Button
+            android:id="@+id/btnTabProduct"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Product Discount"
+            android:textAllCaps="false"
+            android:textColor="#1E2421"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnTabDelivery"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Delivery Discount"
+            android:textAllCaps="false"
+            android:textColor="#7A8580"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Tab Indicator Line -->
+    <View
+        android:id="@+id/tabIndicator"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#1E2421"
+        app:layout_constraintEnd_toEndOf="@id/layoutTabs"
+        app:layout_constraintStart_toStartOf="@id/layoutTabs"
+        app:layout_constraintTop_toBottomOf="@id/layoutTabs" />
+
+    <!-- Voucher Cards RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvVouchers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutSavingsBar"
+        app:layout_constraintTop_toBottomOf="@id/tabIndicator"
+        tools:listitem="@layout/item_voucher" />
+
+    <!-- Bottom Total Savings Container -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layoutSavingsBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:accessibilityLiveRegion="polite"
+        app:cardBackgroundColor="#F5EFE4"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:strokeColor="#E5DEC9"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvTotalSavingsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.08"
+                android:text="TOTAL SAVINGS:"
+                android:textColor="#5A6660"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTotalSavingsAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:accessibilityLiveRegion="polite"
+                android:textColor="#A44222"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:text="210.000đ" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfirmVouchers"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#A44222"
+                android:text="Apply Vouchers"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
