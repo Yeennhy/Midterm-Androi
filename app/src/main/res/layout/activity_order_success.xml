@@ -7,51 +7,75 @@
     android:background="#FAF6F0"
     android:padding="24dp">
 
-    <!-- Success Checkmark Icon Box -->
-    <ImageView
-        android:id="@+id/ivSuccessCheck"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="80dp"
-        android:contentDescription="@null"
-        android:src="@android:drawable/checkbox_on_background"
+    <!-- Success Checkmark Circle -->
+    <FrameLayout
+        android:id="@+id/layoutCheckCircle"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_footer_card"
+        android:backgroundTint="#2E4A3E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#A84323" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivSuccessCheck"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@android:drawable/checkbox_on_background"
+            app:tint="#66BB6A" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tvOrderSuccessTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Order Confirmed!"
-        android:textColor="#1E2421"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="Order Successful!"
+        android:textColor="#163328"
         android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivSuccessCheck" />
+        app:layout_constraintTop_toBottomOf="@id/layoutCheckCircle" />
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:letterSpacing="0.08"
+        android:text="ORDER #SS-82910"
+        android:textColor="#A44222"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderSuccessTitle" />
 
     <TextView
         android:id="@+id/tvOrderSuccessSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Thank you for your purchase.\nYour order is now being processed."
+        android:fontFamily="@font/hanken_grotesk_regular"
+        android:text="Thank you for your purchase."
         android:textColor="#5A6660"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvOrderSuccessTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvOrderId" />
 
     <!-- Order Summary Card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardOrderSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
@@ -65,18 +89,60 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Payment Summary"
-                android:textColor="#1E2421"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvItemsCountLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/hanken_grotesk_regular"
+                    android:text="Items (3)"
+                    android:textColor="#5A6660"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvItemsPaidAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/space_grotesk_bold"
+                    android:textColor="#1E2421"
+                    android:textSize="16sp"
+                    tools:text="210.000đ" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/hanken_grotesk_regular"
+                    android:text="Shipping"
+                    android:textColor="#5A6660"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvShippingStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/hanken_grotesk_bold"
+                    android:textColor="#2E7D32"
+                    android:textSize="15sp"
+                    android:text="FREE" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginVertical="12dp"
+                android:layout_marginVertical="16dp"
                 android:background="#F0EBE1" />
 
             <LinearLayout
@@ -88,36 +154,36 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Total Paid:"
-                    android:textColor="#5A6660"
-                    android:textSize="14sp" />
+                    android:fontFamily="@font/hanken_grotesk_bold"
+                    android:text="Total"
+                    android:textColor="#1E2421"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvTotalPaidAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#A84323"
+                    android:fontFamily="@font/space_grotesk_bold"
+                    android:textColor="#A44222"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     tools:text="210.000đ" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Return to Home/Cart Button -->
+    <!-- Return to Cart Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBackToHome"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="#3E4643"
-        android:text="Back to Home"
+        android:backgroundTint="#A44222"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="Back to Cart"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:cornerRadius="26dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -6,9 +6,9 @@ import com.example.midterm.data.ServiceLocator
 import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.databinding.ActivityOrderSuccessBinding
 import com.example.midterm.ui.base.BaseActivity
+import com.example.midterm.ui.cart.CartActivity
 import com.example.midterm.ui.common.applyAccessibilitySupport
 import com.example.midterm.ui.common.postAnnouncement
-import com.example.midterm.ui.main.MainActivity
 import com.example.midterm.utils.CurrencyFormatter
 
 class OrderSuccessActivity : BaseActivity<ActivityOrderSuccessBinding>(ActivityOrderSuccessBinding::inflate) {
@@ -16,11 +16,14 @@ class OrderSuccessActivity : BaseActivity<ActivityOrderSuccessBinding>(ActivityO
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val totalPaid = intent.getLongExtra(EXTRA_TOTAL_PAID, 0L)
-        binding.tvTotalPaidAmount.text = CurrencyFormatter.format(totalPaid)
+        val totalPaid = intent.getLongExtra(EXTRA_TOTAL_PAID, 210000L)
+        val formattedPrice = CurrencyFormatter.format(totalPaid)
+
+        binding.tvItemsPaidAmount.text = formattedPrice
+        binding.tvTotalPaidAmount.text = formattedPrice
 
         binding.btnBackToHome.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
+            val intent = Intent(this, CartActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             }
             startActivity(intent)
@@ -31,8 +34,8 @@ class OrderSuccessActivity : BaseActivity<ActivityOrderSuccessBinding>(ActivityO
         val session = ServiceLocator.seminarRepository.session.value
         if (session.accessibilityMode == AccessibilityMode.ACCESSIBLE) {
             binding.root.applyAccessibilitySupport("Order Confirmation Screen")
-            binding.btnBackToHome.applyAccessibilitySupport("Back to home screen button")
-            binding.root.postAnnouncement("Order successfully placed. Total paid is ${CurrencyFormatter.format(totalPaid)}.")
+            binding.btnBackToHome.applyAccessibilitySupport("Back to Cart button")
+            binding.root.postAnnouncement("Order successfully placed. Order number SS-82910. Total paid is $formattedPrice.")
         }
     }
 

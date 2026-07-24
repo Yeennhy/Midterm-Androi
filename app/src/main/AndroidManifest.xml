@@ -32,8 +32,9 @@
             android:label="@string/nav_cart" />
         <activity
             android:name=".ui.voucher.VoucherActivity"
-            android:exported="false"
-            android:label="@string/nav_voucher" />
+            android:exported="true"
+            android:label="@string/nav_voucher"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="false"

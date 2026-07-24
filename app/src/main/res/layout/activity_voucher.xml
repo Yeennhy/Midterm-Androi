@@ -4,211 +4,280 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF6F0"
-    android:paddingTop="16dp">
+    android:background="@color/landing_background"
+    tools:context=".ui.voucher.VoucherActivity">
 
-    <!-- Top Bar: Back Button & Title "Discount" -->
-    <ImageView
+    <ImageButton
         android:id="@+id/btnBack"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Navigate back"
-        android:padding="4dp"
-        android:src="@android:drawable/ic_menu_revert"
-        app:layout_constraintBottom_toBottomOf="@id/tvVoucherTitle"
+        android:padding="12dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeaderTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvVoucherTitle"
-        app:tint="#1E2421" />
+        app:layout_constraintTop_toTopOf="@id/tvHeaderTitle"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/tvVoucherTitle"
+        android:id="@+id/tvHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Discount"
-        android:textColor="#1E2421"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/discount_title"
+        android:textColor="@color/heading_green"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Code Input Section -->
     <TextView
-        android:id="@+id/tvCodeLabel"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvEnterCodeLabel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Enter code"
-        android:textColor="#1E2421"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/discount_enter_code"
+        android:textColor="@color/landing_description"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvVoucherTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle" />
 
-    <LinearLayout
-        android:id="@+id/layoutInputRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/etVoucherCode"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@id/tvCodeLabel">
+        android:background="@drawable/bg_voucher_input"
+        android:hint="@string/discount_code_hint"
+        android:inputType="textCapCharacters"
+        android:maxLines="1"
+        android:paddingHorizontal="17dp"
+        android:fontFamily="@font/hanken_grotesk_regular"
+        android:textColor="@color/landing_title"
+        android:textColorHint="@color/input_placeholder"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/btnApplyCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEnterCodeLabel" />
 
-        <EditText
-            android:id="@+id/etVoucherCode"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
-            android:layout_weight="1"
-            android:background="@android:drawable/edit_text"
-            android:backgroundTint="#F2ECE1"
-            android:hint="e.g. SUMMER24"
-            android:inputType="textCapCharacters"
-            android:paddingHorizontal="16dp"
-            android:textColor="#1E2421"
-            android:textColorHint="#9EA6A1"
-            android:textSize="14sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnApplyCode"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:backgroundTint="#A44222"
-            android:text="Apply"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:cornerRadius="8dp" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnApplyCode"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/landing_button"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:paddingHorizontal="24dp"
+        android:text="@string/discount_apply"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/etVoucherCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etVoucherCode" />
 
     <TextView
         android:id="@+id/tvCodeError"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:text="Invalid or expired voucher code"
-        android:textColor="#D32F2F"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/hanken_grotesk_regular"
+        android:text="@string/discount_code_invalid"
+        android:textColor="@color/landing_button"
         android:textSize="12sp"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutInputRow" />
+        app:layout_constraintTop_toBottomOf="@id/etVoucherCode"
+        tools:visibility="visible" />
 
-    <!-- Tabs: Product Discount | Delivery Discount -->
     <LinearLayout
-        android:id="@+id/layoutTabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
+        android:id="@+id/tabProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/tabDelivery"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCodeError">
 
-        <Button
-            android:id="@+id/btnTabProduct"
-            style="?attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Product Discount"
-            android:textAllCaps="false"
-            android:textColor="#1E2421"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvTabProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/hanken_grotesk_bold"
+            android:text="@string/discount_tab_product"
+            android:textColor="@color/heading_green"
+            android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btnTabDelivery"
-            style="?attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Delivery Discount"
-            android:textAllCaps="false"
-            android:textColor="#7A8580"
-            android:textSize="14sp" />
+        <View
+            android:id="@+id/indicatorProduct"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/heading_green" />
     </LinearLayout>
 
-    <!-- Tab Indicator Line -->
-    <View
-        android:id="@+id/tabIndicator"
+    <LinearLayout
+        android:id="@+id/tabDelivery"
         android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:background="#1E2421"
-        app:layout_constraintEnd_toEndOf="@id/layoutTabs"
-        app:layout_constraintStart_toStartOf="@id/layoutTabs"
-        app:layout_constraintTop_toBottomOf="@id/layoutTabs" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tabProduct"
+        app:layout_constraintTop_toTopOf="@id/tabProduct">
 
-    <!-- Voucher Cards RecyclerView -->
+        <TextView
+            android:id="@+id/tvTabDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/hanken_grotesk_regular"
+            android:text="@string/discount_tab_delivery"
+            android:textColor="@color/heading_green"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/indicatorDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/heading_green"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/tabDividerLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabProduct" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVouchers"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
         android:paddingBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutSavingsBar"
-        app:layout_constraintTop_toBottomOf="@id/tabIndicator"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/footerDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabDividerLine"
         tools:listitem="@layout/item_voucher" />
 
-    <!-- Bottom Total Savings Container -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/layoutSavingsBar"
-        android:layout_width="match_parent"
+    <View
+        android:id="@+id/footerDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/footer_divider"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:accessibilityLiveRegion="polite"
-        app:cardBackgroundColor="#F5EFE4"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
+        android:background="@color/landing_background"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeColor="#E5DEC9"
-        app:strokeWidth="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
+            android:id="@+id/footerSavingsCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_footer_card"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/tvTotalSavingsLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:letterSpacing="0.08"
-                android:text="TOTAL SAVINGS:"
-                android:textColor="#5A6660"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/hanken_grotesk_regular"
+                android:letterSpacing="0.1"
+                android:text="@string/discount_total_savings"
+                android:textColor="@color/landing_description"
+                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tvTotalSavingsAmount"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:accessibilityLiveRegion="polite"
-                android:textColor="#A44222"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                tools:text="210.000đ" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnConfirmVouchers"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="#A44222"
-                android:text="Apply Vouchers"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:cornerRadius="24dp" />
+                <TextView
+                    android:id="@+id/tvOriginalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/hanken_grotesk_regular"
+                    android:textColor="@color/landing_description"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    tools:text="232.000đ"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tvFinalPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/space_grotesk_bold"
+                    android:textColor="@color/landing_button"
+                    android:textSize="22sp"
+                    tools:text="210.000đ" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConfirmVouchers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:backgroundTint="@color/landing_button"
+                    android:fontFamily="@font/hanken_grotesk_bold"
+                    android:paddingHorizontal="20dp"
+                    android:text="Apply Vouchers"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:cornerRadius="22dp" />
+            </LinearLayout>
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

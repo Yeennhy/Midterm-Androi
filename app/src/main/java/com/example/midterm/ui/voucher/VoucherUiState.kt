@@ -4,7 +4,7 @@ import com.example.midterm.data.model.AccessibilityMode
 import com.example.midterm.data.model.Voucher
 
 /**
- * UI State for the Voucher screen.
+ * UI State for the Voucher / Discount screen.
  */
 data class VoucherUiState(
     val productVouchers: List<Voucher> = emptyList(),
@@ -12,7 +12,7 @@ data class VoucherUiState(
     val appliedProductVoucher: Voucher? = null,
     val appliedDeliveryVoucher: Voucher? = null,
     val orderSubtotal: Long = 0L,
-    val shippingFee: Long = 30000L,
+    val shippingFee: Long = 22000L,
     val totalSavings: Long = 0L,
     val discountedTotal: Long = 0L,
     val selectedTab: Int = 0,
@@ -21,4 +21,7 @@ data class VoucherUiState(
     val codeSuccessMessage: String? = null,
     val announcementMessage: String? = null,
     val accessibilityMode: AccessibilityMode = AccessibilityMode.ACCESSIBLE
-)
+) {
+    val orderTotal: Long
+        get() = orderSubtotal + shippingFee
+}

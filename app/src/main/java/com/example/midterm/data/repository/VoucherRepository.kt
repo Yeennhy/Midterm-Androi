@@ -3,6 +3,9 @@ package com.example.midterm.data.repository
 import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.model.VoucherType
 import com.example.midterm.data.source.LocalMockData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * Repository holding available vouchers and providing validation logic.
@@ -14,6 +17,32 @@ import com.example.midterm.data.source.LocalMockData
 class VoucherRepository {
 
     private val vouchers: List<Voucher> = LocalMockData.vouchers
+
+    private val _appliedProductVoucher = MutableStateFlow<Voucher?>(null)
+    val appliedProductVoucher: StateFlow<Voucher?> = _appliedProductVoucher.asStateFlow()
+
+    private val _appliedDeliveryVoucher = MutableStateFlow<Voucher?>(null)
+    val appliedDeliveryVoucher: StateFlow<Voucher?> = _appliedDeliveryVoucher.asStateFlow()
+
+    fun applyProductVoucher(voucher: Voucher?) {
+        _appliedProductVoucher.value = voucher
+    }
+
+    fun applyDeliveryVoucher(voucher: Voucher?) {
+        _appliedDeliveryVoucher.value = voucher
+    }
+
+    fun removeVoucher(type: VoucherType) {
+        when (type) {
+            VoucherType.PRODUCT -> _appliedProductVoucher.value = null
+            VoucherType.DELIVERY -> _appliedDeliveryVoucher.value = null
+        }
+    }
+
+    fun clearVouchers() {
+        _appliedProductVoucher.value = null
+        _appliedDeliveryVoucher.value = null
+    }
 
     /** Product vouchers to render in the "Product discount" tab (hidden ones excluded). */
     fun getProductVouchers(): List<Voucher> =

@@ -11,4 +11,7 @@ data class PaymentMethod(
     val name: String,
     val iconResId: Int,
     val description: String
-)
+) {
+    val subtitle: String
+        get() = description
+}

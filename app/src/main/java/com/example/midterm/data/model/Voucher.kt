@@ -28,11 +28,26 @@ data class Voucher(
     val description: String = "",
     val expiryText: String = "",
     val discountBadge: String = "",
-    val isFixedValue: Boolean = false
-)
+    val isFixedValue: Boolean = false,
+    val badgeText: String = "",
+    val expiryLabel: String = ""
+) {
+    val effectiveBadgeText: String
+        get() {
+            if (badgeText.isNotEmpty()) return badgeText
+            if (discountBadge.isNotEmpty()) return discountBadge
+            return when {
+                isFixedValue -> "${value / 1000}K OFF"
+                type == VoucherType.DELIVERY && value == 100 -> "FREE"
+                else -> "$value% OFF"
+            }
+        }
+
+    val effectiveExpiryLabel: String
+        get() = expiryLabel.ifEmpty { expiryText }
+}
 
 enum class VoucherType {
     PRODUCT,  // Percent/Product discount on cart subtotal
     DELIVERY  // Delivery/Shipping fee discount
 }
-

@@ -3,10 +3,18 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="landing_background">#FBF3E7</color>
-    <color name="landing_title">#1A1A1A</color>
-    <color name="landing_subtitle">#2F5233</color>
-    <color name="landing_description">#6B6B6B</color>
-    <color name="landing_button">#8B3A1D</color>
+    <color name="landing_background">#FDF9F3</color>
+    <color name="landing_title">#1C1C18</color>
+    <color name="landing_subtitle">#2D4A3E</color>
+    <color name="landing_description">#424844</color>
+    <color name="landing_button">#9F4123</color>
     <color name="landing_button_text">#FFFFFFFF</color>
+
+    <color name="heading_green">#163328</color>
+    <color name="input_background">#F4F1EA</color>
+    <color name="input_placeholder">#6B7280</color>
+    <color name="divider">#E6E2DC</color>
+    <color name="card_surface">#F7F3ED</color>
+    <color name="card_surface_border">#F2EDE8</color>
+    <color name="footer_divider">#ECE7E2</color>
 </resources>

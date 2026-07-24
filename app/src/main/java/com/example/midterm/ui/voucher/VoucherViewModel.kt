@@ -6,6 +6,7 @@ import com.example.midterm.data.model.VoucherType
 import com.example.midterm.data.repository.CartRepository
 import com.example.midterm.data.repository.SeminarRepository
 import com.example.midterm.data.repository.VoucherRepository
+import com.example.midterm.data.source.LocalMockData
 import com.example.midterm.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -28,30 +29,39 @@ class VoucherViewModel(
         viewModelScope.launch {
             combine(
                 cartRepository.cartItems,
+                voucherRepository.appliedProductVoucher,
+                voucherRepository.appliedDeliveryVoucher,
                 seminarRepository.session
-            ) { items, session ->
-                val checkedItems = items.filter { it.isSelected }
-                val subtotal: Long = checkedItems.sumOf { item ->
+            ) { items, appliedProduct, appliedDelivery, session ->
+                val selectedItems = items.filter { it.isSelected }
+                val subtotal: Long = selectedItems.sumOf { item ->
                     val unitPrice = item.product.price + (item.selectedVariant?.extraPrice ?: 0L)
                     unitPrice * item.quantity
                 }
-                subtotal to session.accessibilityMode
-            }.collect { (subtotal, mode) ->
+                val baseShippingFee = LocalMockData.DEFAULT_SHIPPING_FEE
+                Quadruple(subtotal, baseShippingFee, appliedProduct to appliedDelivery, session.accessibilityMode)
+            }.collect { (subtotal, baseShippingFee, appliedPair, mode) ->
+                val (appliedProduct, appliedDelivery) = appliedPair
+
                 val allProductVouchers = voucherRepository.getProductVouchers() +
                         unlockedHiddenVouchers.filter { it.type == VoucherType.PRODUCT }
                 val allDeliveryVouchers = voucherRepository.getDeliveryVouchers() +
                         unlockedHiddenVouchers.filter { it.type == VoucherType.DELIVERY }
 
-                updateState { current ->
-                    val productSavings = computeVoucherSavings(current.appliedProductVoucher, subtotal, current.shippingFee)
-                    val deliverySavings = computeVoucherSavings(current.appliedDeliveryVoucher, subtotal, current.shippingFee)
-                    val totalSavings = productSavings + deliverySavings
-                    val discountedTotal = (subtotal + current.shippingFee - totalSavings).coerceAtLeast(0L)
+                val productSavings = computeVoucherSavings(appliedProduct, subtotal, baseShippingFee)
+                val deliverySavings = computeVoucherSavings(appliedDelivery, subtotal, baseShippingFee)
+                val totalSavings = productSavings + deliverySavings
+                val finalShipping = (baseShippingFee - deliverySavings).coerceAtLeast(0L)
+                val discountedTotal = (subtotal + finalShipping - productSavings).coerceAtLeast(0L)
 
+                updateState { current ->
                     current.copy(
                         productVouchers = allProductVouchers.distinctBy { it.code },
                         deliveryVouchers = allDeliveryVouchers.distinctBy { it.code },
+                        appliedProductVoucher = appliedProduct,
+                        appliedDeliveryVoucher = appliedDelivery,
                         orderSubtotal = subtotal,
+                        shippingFee = finalShipping,
                         totalSavings = totalSavings,
                         discountedTotal = discountedTotal,
                         accessibilityMode = mode
@@ -69,18 +79,20 @@ class VoucherViewModel(
         updateState { it.copy(hiddenCodeInput = text, hiddenCodeError = false, codeSuccessMessage = null) }
     }
 
+    fun onHiddenCodeInputChanged(text: String) {
+        onCodeInputChanged(text)
+    }
+
     fun redeemHiddenCode() {
         val current = _uiState.value
         val code = current.hiddenCodeInput.trim()
-        if (code.isEmpty()) return
-
-        val voucher = voucherRepository.getVoucherByCode(code)
-        if (voucher == null) {
-            updateState { it.copy(hiddenCodeError = true, codeSuccessMessage = null) }
+        if (code.isBlank()) {
+            updateState { it.copy(hiddenCodeError = false) }
             return
         }
 
-        if (current.orderSubtotal < voucher.minSpend) {
+        val voucher = voucherRepository.getVoucherByCode(code)
+        if (voucher == null || current.orderSubtotal < voucher.minSpend) {
             updateState { it.copy(hiddenCodeError = true, codeSuccessMessage = null) }
             return
         }
@@ -89,68 +101,55 @@ class VoucherViewModel(
             unlockedHiddenVouchers.add(voucher)
         }
 
-        val announcement = "Selected ${voucher.title.ifEmpty { voucher.code }}"
-        applyVoucher(voucher, announcement)
+        applyVoucher(voucher)
         updateState {
             it.copy(
                 hiddenCodeInput = "",
                 hiddenCodeError = false,
-                codeSuccessMessage = "Voucher ${voucher.code} applied successfully!"
+                codeSuccessMessage = "Voucher ${voucher.code} applied successfully!",
+                announcementMessage = "Selected ${voucher.title.ifEmpty { voucher.code }}"
             )
         }
     }
 
-    /**
-     * Handles voucher selection with strict category exclusivity:
-     * - Selecting a new PRODUCT voucher replaces the previous PRODUCT voucher.
-     * - Selecting a new DELIVERY voucher replaces the previous DELIVERY voucher.
-     * - Tapping an already selected voucher toggles it off.
-     */
     fun onVoucherSelected(voucher: Voucher) {
         val current = _uiState.value
         when (voucher.type) {
             VoucherType.PRODUCT -> {
                 val isAlreadySelected = current.appliedProductVoucher?.code == voucher.code
-                val newApplied = if (isAlreadySelected) null else voucher
-                val announcement = if (isAlreadySelected) "Deselected ${voucher.title}" else "Selected ${voucher.title}"
-                updateAppliedVouchers(productVoucher = newApplied, deliveryVoucher = current.appliedDeliveryVoucher, announcement = announcement)
+                if (isAlreadySelected) {
+                    voucherRepository.removeVoucher(VoucherType.PRODUCT)
+                    updateState { it.copy(announcementMessage = "Deselected ${voucher.title}") }
+                } else {
+                    voucherRepository.applyProductVoucher(voucher)
+                    updateState { it.copy(announcementMessage = "Selected ${voucher.title}") }
+                }
             }
             VoucherType.DELIVERY -> {
                 val isAlreadySelected = current.appliedDeliveryVoucher?.code == voucher.code
-                val newApplied = if (isAlreadySelected) null else voucher
-                val announcement = if (isAlreadySelected) "Deselected ${voucher.title}" else "Selected ${voucher.title}"
-                updateAppliedVouchers(productVoucher = current.appliedProductVoucher, deliveryVoucher = newApplied, announcement = announcement)
+                if (isAlreadySelected) {
+                    voucherRepository.removeVoucher(VoucherType.DELIVERY)
+                    updateState { it.copy(announcementMessage = "Deselected ${voucher.title}") }
+                } else {
+                    voucherRepository.applyDeliveryVoucher(voucher)
+                    updateState { it.copy(announcementMessage = "Selected ${voucher.title}") }
+                }
             }
         }
+    }
+
+    fun removeVoucher(type: VoucherType) {
+        voucherRepository.removeVoucher(type)
     }
 
     fun clearAnnouncementMessage() {
         updateState { it.copy(announcementMessage = null) }
     }
 
-    private fun applyVoucher(voucher: Voucher, announcement: String?) {
-        val current = _uiState.value
+    private fun applyVoucher(voucher: Voucher) {
         when (voucher.type) {
-            VoucherType.PRODUCT -> updateAppliedVouchers(productVoucher = voucher, deliveryVoucher = current.appliedDeliveryVoucher, announcement = announcement)
-            VoucherType.DELIVERY -> updateAppliedVouchers(productVoucher = current.appliedProductVoucher, deliveryVoucher = voucher, announcement = announcement)
-        }
-    }
-
-    private fun updateAppliedVouchers(productVoucher: Voucher?, deliveryVoucher: Voucher?, announcement: String?) {
-        val current = _uiState.value
-        val productSavings = computeVoucherSavings(productVoucher, current.orderSubtotal, current.shippingFee)
-        val deliverySavings = computeVoucherSavings(deliveryVoucher, current.orderSubtotal, current.shippingFee)
-        val totalSavings = productSavings + deliverySavings
-        val discountedTotal = (current.orderSubtotal + current.shippingFee - totalSavings).coerceAtLeast(0L)
-
-        updateState {
-            it.copy(
-                appliedProductVoucher = productVoucher,
-                appliedDeliveryVoucher = deliveryVoucher,
-                totalSavings = totalSavings,
-                discountedTotal = discountedTotal,
-                announcementMessage = announcement
-            )
+            VoucherType.PRODUCT -> voucherRepository.applyProductVoucher(voucher)
+            VoucherType.DELIVERY -> voucherRepository.applyDeliveryVoucher(voucher)
         }
     }
 
@@ -175,4 +174,6 @@ class VoucherViewModel(
             }
         }
     }
+
+    private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 }
