@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.midterm.R
 import com.example.midterm.data.model.Voucher
 import com.example.midterm.data.model.VoucherType
 import com.example.midterm.databinding.ItemUnfriendlyVoucherBinding
@@ -51,13 +52,14 @@ class UnfriendlyVoucherAdapter(
 
             binding.rbVoucher.isChecked = isSelected
 
-            // Set color based on type
-            val themeColor = if (voucher.type == VoucherType.PRODUCT) {
-                Color.parseColor("#2D4B3D") // Dark Green
+            // Set color and icon based on type
+            val (themeColor, iconRes) = if (voucher.type == VoucherType.PRODUCT) {
+                Color.parseColor("#2D4B3D") to R.drawable.tag_icon
             } else {
-                Color.parseColor("#9F4123") // Brownish Red
+                Color.parseColor("#9F4123") to R.drawable.truck
             }
             binding.leftSection.setBackgroundColor(themeColor)
+            binding.imgVoucherType.setImageResource(iconRes)
 
             binding.root.setOnClickListener {
                 onVoucherClick(voucher)
