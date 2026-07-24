@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/flow_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
     <ImageView
         android:id="@+id/checkmark"
         android:layout_width="wrap_content"
@@ -13,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.1"
         />
 
     <TextView
@@ -80,6 +86,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/success_summary_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="45dp"
@@ -163,12 +170,15 @@
         android:id="@+id/finish_demo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/success_summary_block"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="36dp"
+        app:layout_constraintVertical_bias="1.0"
         android:background="@drawable/bg_confirm_button"
         app:backgroundTint="@null"
         android:textColor="@color/white"
@@ -179,3 +189,4 @@
         android:elevation="2dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
