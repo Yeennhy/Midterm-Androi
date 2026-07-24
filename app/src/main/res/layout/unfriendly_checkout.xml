@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/flow_background">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_weight="1">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
+
+            <!-- Top Bar -->
+            <ImageButton
+                android:id="@+id/checkout_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/back_arrow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="28dp"
+                android:layout_marginStart="28dp" />
+
+            <TextView
+                android:id="@+id/checkout_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Order"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:textStyle="bold"
+                android:textSize="22dp"
+                app:layout_constraintTop_toTopOf="@id/checkout_back_button"
+                app:layout_constraintBottom_toBottomOf="@id/checkout_back_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Tab Icons: Cart / Delivery -->
+            <ImageView
+                android:id="@+id/checkout_tab_cart_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shoppingcart_inactive"
+                app:layout_constraintTop_toBottomOf="@id/checkout_back_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/checkout_tab_delivery_icon"
+                android:layout_marginTop="43dp" />
+
+            <ImageView
+                android:id="@+id/checkout_tab_delivery_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bag_enabled"
+                app:layout_constraintTop_toTopOf="@id/checkout_tab_cart_icon"
+                app:layout_constraintStart_toEndOf="@id/checkout_tab_cart_icon"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <View
+                android:id="@+id/checkout_divider_1"
+                android:layout_width="320dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/inactive_bar"
+                app:layout_constraintTop_toBottomOf="@id/checkout_tab_delivery_icon"
+                app:layout_constraintEnd_toEndOf="@id/checkout_tab_delivery_icon"
+                app:layout_constraintStart_toStartOf="@id/checkout_tab_cart_icon"
+                />
+            <View
+                android:id="@+id/checkout_tab_underline"
+                android:layout_width="160dp"
+                android:layout_height="2dp"
+                android:background="@color/terracotta"
+                app:layout_constraintTop_toBottomOf="@id/checkout_tab_delivery_icon"
+                app:layout_constraintStart_toStartOf="@id/checkout_tab_delivery_icon"
+                app:layout_constraintEnd_toEndOf="@id/checkout_tab_delivery_icon"
+                android:layout_marginTop="20dp" />
+
+            <!-- Shipping Address -->
+            <TextView
+                android:id="@+id/checkout_shipping_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shipping Address"
+                android:textStyle="bold"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@id/checkout_divider_1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="20dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/checkout_address_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintTop_toBottomOf="@id/checkout_shipping_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHeight_max="148dp"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="32dp"
+                    android:paddingBottom="12dp">
+
+                    <!--DISPLAY MODE-->
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/shipping_display_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="shipping_address_text,edit_shipping_button" />
+
+                    <TextView
+                        android:id="@+id/shipping_address_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="53 Nguyen Du, Sai Gon Ward, HCMC"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/edit_shipping_button"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/edit_shipping_button"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/edit_btn"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!--EDIT MODE-->
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/shipping_edit_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:constraint_referenced_ids="shipping_address_edit_text,save_address_button" />
+
+                    <EditText
+                        android:id="@+id/shipping_address_edit_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_edit_text_outline"
+                        android:padding="12dp"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/save_address_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_confirm_button_rect"
+                        app:backgroundTint="@null"
+                        android:textSize="16dp"
+                        android:text="OK"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/shipping_address_edit_text"
+                        android:layout_marginBottom="8dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Order Summary -->
+            <TextView
+                android:id="@+id/checkout_order_summary_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Summary"
+                android:textStyle="bold"
+                android:fontFamily="@font/hankengrotesk_bold"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@id/checkout_address_card"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="20dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/checkout_order_summary_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintTop_toBottomOf="@id/checkout_order_summary_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/checkout_product_thumbnail"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/order_placeholder"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/checkout_item_count_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="3 Items"
+                        android:textStyle="bold"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/hankengrotesk_bold"
+                        app:layout_constraintTop_toTopOf="@id/checkout_product_thumbnail"
+                        app:layout_constraintStart_toEndOf="@id/checkout_product_thumbnail"
+                        app:layout_constraintEnd_toStartOf="@id/item_price_text"
+                        android:layout_marginStart="16dp" />
+
+                    <TextView
+                        android:id="@+id/shipping_fee_note"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Shipping fees included"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/spacegrotesk_regular"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_item_count_text"
+                        app:layout_constraintStart_toStartOf="@id/checkout_item_count_text"
+                        app:layout_constraintEnd_toEndOf="@id/checkout_item_count_text" />
+
+                    <TextView
+                        android:id="@+id/item_price_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="232.000đ"
+                        android:fontFamily="@font/spacegrotesk_bold"
+                        android:textColor="@color/terracotta"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        app:layout_constraintTop_toTopOf="@id/checkout_product_thumbnail"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <View
+                        android:id="@+id/checkout_summary_divider_1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/inactive_bar"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_product_thumbnail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="12dp" />
+
+                    <TextView
+                        android:id="@+id/checkout_shipping_voucher_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="FREESHIP_NOW"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_summary_divider_1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/checkout_shipping_voucher_value"
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:id="@+id/checkout_shipping_voucher_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-22.000đ"
+                        android:fontFamily="@font/spacegrotesk_bold"
+                        android:textColor="@color/terracotta"
+                        android:textSize="12dp"
+                        app:layout_constraintTop_toTopOf="@id/checkout_shipping_voucher_label"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/checkout_product_voucher_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="FREESHIP_NOW"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_shipping_voucher_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/checkout_product_voucher_value"
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:id="@+id/checkout_product_voucher_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-22.000đ"
+                        android:fontFamily="@font/spacegrotesk_bold"
+                        android:textColor="@color/terracotta"
+                        android:textSize="12dp"
+                        app:layout_constraintTop_toTopOf="@id/checkout_product_voucher_label"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <View
+                        android:id="@+id/checkout_summary_divider_2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/inactive_bar"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_product_voucher_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="16dp" />
+
+
+                    <TextView
+                        android:id="@+id/checkout_subtotal_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Subtotal"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_summary_divider_2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/checkout_subtotal_value"
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:id="@+id/checkout_subtotal_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/spacegrotesk_regular"
+                        android:textSize="14dp"
+                        android:text="210.000đ"
+                        app:layout_constraintTop_toTopOf="@id/checkout_subtotal_label"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/checkout_shipping_label_row"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Shipping"
+                        android:fontFamily="@font/hankengrotesk_regular"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toBottomOf="@id/checkout_subtotal_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/checkout_shipping_value"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/checkout_shipping_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/hankengrotesk_bold"
+                        android:text="FREE"
+                        android:textSize="14dp"
+                        android:textColor="@color/themic_green"
+                        app:layout_constraintTop_toTopOf="@id/checkout_shipping_label_row"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Payment Method -->
+            <TextView
+                android:id="@+id/payment_method_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Method"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:fontFamily="@font/hankengrotesk_bold"
+                app:layout_constraintTop_toBottomOf="@id/checkout_order_summary_card"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="20dp" />
+
+            <!-- 2x2 grid of payment options -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/payment_option_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:background="@drawable/bg_payment_selected"
+                app:layout_constraintTop_toBottomOf="@id/payment_method_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/payment_option_ewallet"
+                app:layout_constraintWidth_percent="0.25"
+                app:layout_constraintWidth_max="200dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pay_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/payment_option_ewallet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:background="@drawable/bg_payment_option"
+                app:layout_constraintTop_toTopOf="@id/payment_option_card"
+                app:layout_constraintStart_toEndOf="@id/payment_option_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.25"
+                app:layout_constraintWidth_max="200dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pay_wallet"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/payment_option_bank"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:background="@drawable/bg_payment_option"
+                app:layout_constraintTop_toBottomOf="@id/payment_option_card"
+                app:layout_constraintStart_toStartOf="@id/payment_option_card"
+                app:layout_constraintEnd_toEndOf="@id/payment_option_card"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pay_bank"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/payment_option_cash"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:background="@drawable/bg_payment_option"
+                app:layout_constraintTop_toTopOf="@id/payment_option_bank"
+                app:layout_constraintStart_toStartOf="@id/payment_option_ewallet"
+                app:layout_constraintEnd_toEndOf="@id/payment_option_ewallet">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pay_cod"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:layout_marginTop="16dp">
+    <!-- Bottom Total Bar -->
+    <View
+        android:id="@+id/bot_divider"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/inactive_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/total_amount_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Amount"
+        android:textSize="12dp"
+        android:fontFamily="@font/hankengrotesk_medium"
+        android:textColor="#424844"
+        app:layout_constraintTop_toBottomOf="@id/bot_divider"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/total_amount_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="210.000đ"
+        android:textColor="@color/terracotta"
+        android:fontFamily="@font/spacegrotesk_bold"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/total_amount_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <ImageButton
+        android:id="@+id/confirm_button"
+        android:layout_width="85dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_confirm_button"
+        android:src="@drawable/white_tick"
+        android:scaleType="centerInside"
+        android:padding="12dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/total_amount_value"
+        app:layout_constraintTop_toTopOf="@id/total_amount_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
