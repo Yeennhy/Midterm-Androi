@@ -1,7 +1,6 @@
 package com.example.midterm.ui.checkout
 
 import androidx.lifecycle.viewModelScope
-import com.example.midterm.data.model.PaymentMethod
 import com.example.midterm.data.repository.CartRepository
 import com.example.midterm.data.source.LocalMockData
 import com.example.midterm.ui.base.BaseViewModel
@@ -30,11 +29,11 @@ class UnfriendlyCheckoutViewModel(
                 val voucherShippingCode = "FREESHIP_NOW"
                 val voucherShippingDiscount = rawShippingFee // fully waives shipping for now
                 val voucherProductCode = "WELCOME"
-                val voucherProductDiscount = 10000
+                val voucherProductDiscount = 10000L
                 val netShippingFee = rawShippingFee - voucherShippingDiscount
 
-                val discount = voucherShippingDiscount
-                val total = subtotal + netShippingFee
+                val initTotal = subtotal + rawShippingFee
+                val total = initTotal-voucherShippingDiscount-voucherProductDiscount
 
                 updateState { state ->
                     state.copy(
@@ -42,11 +41,11 @@ class UnfriendlyCheckoutViewModel(
                         itemCount = itemCount,
                         subtotal = subtotal,
                         shippingFee = netShippingFee,
-                        discount = discount,
+                        initTotal = initTotal,
                         total = total,
                         voucherShippingCode = voucherShippingCode,
-                        voucherShippingDiscount = voucherShippingDiscount
-                        voucherProductCode = voucherShippingCode,
+                        voucherShippingDiscount = voucherShippingDiscount,
+                        voucherProductCode = voucherProductCode,
                         voucherProductDiscount = voucherProductDiscount
                     )
                 }
@@ -69,7 +68,9 @@ class UnfriendlyCheckoutViewModel(
     fun selectPaymentMethod(method: PaymentMethod) =
         updateState { it.copy(selectedPaymentMethod = method) }
 
-    fun confirmOrder() {
-        // TODO: wire to order repository / navigate to success screen
+    fun confirmOrder(): String {
+        val orderId = "SS-${(10000..99999).random()}"
+        cartRepository.clearCart()
+        return orderId
     }
 }
