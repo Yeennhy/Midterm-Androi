@@ -1,4 +1,4 @@
-package com.example.midterm.ui.cart
+package com.example.midterm.ui.unfriendly
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.midterm.data.model.CartItem
 import com.example.midterm.databinding.ItemUnfriendlyCartBinding
 
-class CartAdapter(
-    private val listener: CartItemListener
-) : ListAdapter<CartItem, CartAdapter.CartViewHolder>(DiffCallback()) {
+class UnfriendlyCartAdapter(
+    private val listener: UnfriendlyCartItemListener
+) : ListAdapter<CartItem, UnfriendlyCartAdapter.UnfriendlyCartViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CartViewHolder {
+    ): UnfriendlyCartViewHolder {
 
         val binding = ItemUnfriendlyCartBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -24,17 +24,17 @@ class CartAdapter(
             false
         )
 
-        return CartViewHolder(binding)
+        return UnfriendlyCartViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: CartViewHolder,
+        holder: UnfriendlyCartViewHolder,
         position: Int
     ) {
         holder.bind(getItem(position))
     }
 
-    inner class CartViewHolder(
+    inner class UnfriendlyCartViewHolder(
         private val binding: ItemUnfriendlyCartBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -103,7 +103,7 @@ class CartAdapter(
         }
     }
 
-    interface CartItemListener {
+    interface UnfriendlyCartItemListener {
 
         fun onIncreaseQuantity(item: CartItem)
 

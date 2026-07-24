@@ -1,4 +1,4 @@
-package com.example.midterm.ui.cart
+package com.example.midterm.ui.unfriendly
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,24 +7,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.midterm.data.model.ProductVariant
 import com.example.midterm.databinding.ItemVariantBinding
 
-class VariantAdapter(
+class UnfriendlyVariantAdapter(
     private val variants: List<ProductVariant>,
     private val selectedVariantId: String?,
     private val onVariantClick: (ProductVariant) -> Unit
-) : RecyclerView.Adapter<VariantAdapter.VariantViewHolder>() {
+) : RecyclerView.Adapter<UnfriendlyVariantAdapter.UnfriendlyVariantViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariantViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnfriendlyVariantViewHolder {
         val binding = ItemVariantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return VariantViewHolder(binding)
+        return UnfriendlyVariantViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: VariantViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UnfriendlyVariantViewHolder, position: Int) {
         holder.bind(variants[position])
     }
 
     override fun getItemCount(): Int = variants.size
 
-    inner class VariantViewHolder(private val binding: ItemVariantBinding) :
+    inner class UnfriendlyVariantViewHolder(private val binding: ItemVariantBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(variant: ProductVariant) {

@@ -72,6 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="14dp"
                         android:text="1"
+                        android:textColor="@color/black"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -93,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Linen Hardcover Notebook"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
 
             <!-- Tag -->
             <TextView

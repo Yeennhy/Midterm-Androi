@@ -1,5 +1,6 @@
 package com.example.midterm.ui.unfriendly
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -7,21 +8,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.midterm.R
 import com.example.midterm.data.ServiceLocator
 import com.example.midterm.data.model.CartItem
 import com.example.midterm.databinding.ActivityUnfriendlyCartBinding
 import com.example.midterm.ui.base.ViewModelFactory
-import com.example.midterm.ui.cart.CartAdapter
-import com.example.midterm.ui.cart.CartViewModel
-import com.example.midterm.ui.cart.VariantSelectorSheet
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener {
+class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.UnfriendlyCartItemListener {
 
     private lateinit var binding: ActivityUnfriendlyCartBinding
-    private lateinit var viewModel: CartViewModel
-    private lateinit var adapter: CartAdapter
+    private lateinit var viewModel: UnfriendlyCartViewModel
+    private lateinit var adapter: UnfriendlyCartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +29,15 @@ class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener
 
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory { CartViewModel(ServiceLocator.cartRepository) }
-        )[CartViewModel::class.java]
+            ViewModelFactory { UnfriendlyCartViewModel(ServiceLocator.unfriendlyCartRepository) }
+        )[UnfriendlyCartViewModel::class.java]
 
         setupViews()
         observeState()
     }
 
     private fun setupViews() {
-        adapter = CartAdapter(this)
+        adapter = UnfriendlyCartAdapter(this)
         binding.rvProducts.layoutManager = LinearLayoutManager(this)
         binding.rvProducts.adapter = adapter
 
@@ -47,7 +46,7 @@ class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener
         }
 
         binding.voucherSelect.setOnClickListener {
-            Toast.makeText(this, "Error: Action not supported in this view.", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, UnfriendlyVoucherActivity::class.java))
         }
 
         binding.btnSelectAll.setOnClickListener {
@@ -68,11 +67,30 @@ class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener
                         "Subtotal (%d items)", 
                         state.selectedCount
                     )
+                    
+                    if (state.discount > 0) {
+                        binding.tvDiscount.visibility = android.view.View.VISIBLE
+                        binding.tvDiscount.text = String.format(
+                            Locale.getDefault(),
+                            "Discount: -%dđ",
+                            state.discount
+                        )
+                    } else {
+                        binding.tvDiscount.visibility = android.view.View.GONE
+                    }
+
                     binding.tvTotalPrice.text = String.format(
                         Locale.getDefault(), 
                         "%dđ", 
                         state.totalPrice
                     )
+
+                    val selectAllRes = if (state.isSelectAll) {
+                        R.drawable.tick_all
+                    } else {
+                        R.drawable.select_all
+                    }
+                    binding.btnSelectAll.setImageResource(selectAllRes)
                 }
             }
         }
@@ -93,17 +111,17 @@ class CartUnfriendlyActivity : AppCompatActivity(), CartAdapter.CartItemListener
     }
 
     override fun onVariantClick(item: CartItem) {
-        val sheet = VariantSelectorSheet.newInstance(
+        val sheet = UnfriendlyVariantSelectorSheet.newInstance(
             item.product.id,
             item.selectedVariant?.id
         )
 
         supportFragmentManager.setFragmentResultListener(
-            VariantSelectorSheet.REQUEST_KEY,
+            UnfriendlyVariantSelectorSheet.REQUEST_KEY,
             this
         ) { _, result ->
-            val productId = result.getString(VariantSelectorSheet.RESULT_PRODUCT_ID)
-            val variantId = result.getString(VariantSelectorSheet.RESULT_VARIANT_ID)
+            val productId = result.getString(UnfriendlyVariantSelectorSheet.RESULT_PRODUCT_ID)
+            val variantId = result.getString(UnfriendlyVariantSelectorSheet.RESULT_VARIANT_ID)
 
             val product = ServiceLocator.productRepository.getProductById(productId ?: "")
             product?.variants?.find { it.id == variantId }?.let { variant ->

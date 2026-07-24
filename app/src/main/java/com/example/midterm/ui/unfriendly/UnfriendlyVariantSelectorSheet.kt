@@ -1,4 +1,4 @@
-package com.example.midterm.ui.cart
+package com.example.midterm.ui.unfriendly
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.example.midterm.data.ServiceLocator
 import com.example.midterm.databinding.BottomSheetVariantBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class VariantSelectorSheet : BottomSheetDialogFragment() {
+class UnfriendlyVariantSelectorSheet : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetVariantBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +34,7 @@ class VariantSelectorSheet : BottomSheetDialogFragment() {
         val product = ServiceLocator.productRepository.getProductById(productId) ?: return
         
         binding.rvVariants.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvVariants.adapter = VariantAdapter(
+        binding.rvVariants.adapter = UnfriendlyVariantAdapter(
             variants = product.variants,
             selectedVariantId = selectedVariantId,
             onVariantClick = { variant ->
@@ -53,19 +53,19 @@ class VariantSelectorSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val REQUEST_KEY = "variant_selector_request"
+        const val REQUEST_KEY = "unfriendly_variant_selector_request"
         const val RESULT_PRODUCT_ID = "result_product_id"
         const val RESULT_VARIANT_ID = "result_variant_id"
         
         private const val ARG_PRODUCT_ID = "product_id"
         private const val ARG_SELECTED_VARIANT_ID = "selected_variant_id"
 
-        fun newInstance(productId: String, selectedVariantId: String? = null): VariantSelectorSheet {
+        fun newInstance(productId: String, selectedVariantId: String? = null): UnfriendlyVariantSelectorSheet {
             val args = Bundle().apply {
                 putString(ARG_PRODUCT_ID, productId)
                 putString(ARG_SELECTED_VARIANT_ID, selectedVariantId)
             }
-            return VariantSelectorSheet().apply {
+            return UnfriendlyVariantSelectorSheet().apply {
                 arguments = args
             }
         }

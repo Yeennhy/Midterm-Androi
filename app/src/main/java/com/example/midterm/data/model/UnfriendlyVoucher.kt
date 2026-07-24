@@ -7,14 +7,18 @@ package com.example.midterm.data.model
  * @property value Percent off (0-100) applied to the discounted amount.
  * @property isHidden Secret vouchers are excluded from the visible voucher list on the
  *                     Discount page; they can only be unlocked by typing the exact [code]
- *                     into the "enter code" field.
+ *                     into the \"enter code\" field.
  */
 data class Voucher(
     val code: String,
     val type: VoucherType,
     val value: Int,
     val minSpend: Long,
-    val color: Int,
+    val color: Int = 0,
+    val title: String = "",
+    val description: String = "",
+    val badgeText: String = "",
+    val expiryLabel: String = "",
     val expiryDate: Long = 0L,
     val isHidden: Boolean = false
 )

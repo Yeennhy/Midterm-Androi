@@ -46,7 +46,7 @@ app/src/main/java/com/example/midterm/
 │   ├── model/              # Immutable data classes
 │   │   ├── Product.kt      # id, name, price (Long), category, imageResId
 │   │   ├── CartItem.kt     # product + quantity + selection state
-│   │   ├── Voucher.kt      # code, type (PERCENT/SHIPPING), minSpend
+│   │   ├── UnfriendlyVoucher.kt      # code, type (PERCENT/SHIPPING), minSpend
 │   │   ├── Address.kt      # delivery address
 │   │   ├── PaymentMethod.kt
 │   │   ├── SeminarTask.kt  # required product + voucher lists

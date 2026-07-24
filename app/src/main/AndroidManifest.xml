@@ -35,6 +35,10 @@
             android:exported="false"
             android:label="Unfriendly Cart" />
         <activity
+            android:name=".ui.unfriendly.UnfriendlyVoucherActivity"
+            android:exported="false"
+            android:label="Unfriendly Voucher" />
+        <activity
             android:name=".ui.cart.CartActivity"
             android:exported="false"
             android:label="@string/nav_cart" />
