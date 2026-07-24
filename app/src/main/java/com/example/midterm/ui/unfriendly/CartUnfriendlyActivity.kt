@@ -14,6 +14,7 @@ import com.example.midterm.data.model.CartItem
 import com.example.midterm.databinding.ActivityUnfriendlyCartBinding
 import com.example.midterm.ui.base.ViewModelFactory
 import kotlinx.coroutines.launch
+import com.example.midterm.utils.CurrencyFormatter
 import java.util.Locale
 
 class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.UnfriendlyCartItemListener {
@@ -85,20 +86,13 @@ class CartUnfriendlyActivity : AppCompatActivity(), UnfriendlyCartAdapter.Unfrie
                     
                     if (state.discount > 0) {
                         binding.tvDiscount.visibility = android.view.View.VISIBLE
-                        binding.tvDiscount.text = String.format(
-                            Locale.getDefault(),
-                            "Discount: -%dđ",
-                            state.discount
-                        )
+                        binding.tvDiscount.text = "Discount: -" + CurrencyFormatter.format(state.discount)
                     } else {
                         binding.tvDiscount.visibility = android.view.View.GONE
                     }
 
-                    binding.tvTotalPrice.text = String.format(
-                        Locale.getDefault(), 
-                        "%dđ", 
-                        state.totalPrice
-                    )
+                    binding.tvTotalPrice.text = CurrencyFormatter.format(state.totalPrice)
+
 
                     val selectAllRes = if (state.isSelectAll) {
                         R.drawable.tick_all
